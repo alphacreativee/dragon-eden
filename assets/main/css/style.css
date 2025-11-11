@@ -2,6 +2,7 @@
   --font-primary: "Vogun", sans-serif;
   --color-primary: #174642;
   --color-secondary: #b79b79;
+  --color-third: #0f302e;
   --color-white: #fff;
   --color-black: #000;
 }
@@ -527,7 +528,7 @@ body {
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
-  background-color: var(--color-primary);
+  background-color: var(--color-third);
   color: var(--color-white);
   transition: all 0.4s ease;
 }
