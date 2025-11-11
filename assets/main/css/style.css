@@ -365,7 +365,21 @@ body {
 .overview-main {
   height: 100%;
   overflow: hidden;
+  position: relative;
 }
-.overview-main__light {
+.overview-main__item {
   height: 100%;
+  width: 100%;
+  position: absolute;
+  z-index: 1;
+  top: 0;
+  left: 0;
+  opacity: 0;
+  visibility: hidden;
+  transition: all 0.8s ease;
+}
+.overview-main__item.active {
+  z-index: 3;
+  opacity: 1;
+  visibility: visible;
 }

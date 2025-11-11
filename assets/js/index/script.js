@@ -72,9 +72,24 @@ function magicCursor() {
   });
 }
 
+function sectionOverview() {
+  if ($("section.overview").length < 1) return;
+
+  const toggleInput = $(".overview-switcher .toggle-checkbox");
+
+  toggleInput.on("change", function () {
+    const isDark = $(this).is(":checked");
+    const theme = isDark ? "dark" : "light";
+
+    $(".overview-main__item").removeClass("active");
+    $(`.overview-main__${theme}`).addClass("active");
+  });
+}
+
 const init = () => {
   gsap.registerPlugin(ScrollTrigger);
   magicCursor();
+  sectionOverview();
 };
 preloadImages("img").then(() => {
   // Once images are preloaded, remove the 'loading' indicator/class from the body
