@@ -1,0 +1,12 @@
+@font-face {
+    font-family: 'Vogun';
+    src: url('Vogun-Medium.eot');
+    src: url('Vogun-Medium.eot?#iefix') format('embedded-opentype'),
+        url('Vogun-Medium.woff2') format('woff2'),
+        url('Vogun-Medium.woff') format('woff'),
+        url('Vogun-Medium.ttf') format('truetype');
+    font-weight: 500;
+    font-style: normal;
+    font-display: swap;
+}
+

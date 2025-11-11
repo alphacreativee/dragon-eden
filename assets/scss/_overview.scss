@@ -1,0 +1,107 @@
+// overview
+.overview {
+  height: 100dvh;
+  position: relative;
+
+  &-switcher {
+    position: absolute;
+    top: 40px;
+    right: 40px;
+    z-index: 10;
+
+    .toggle-checkbox {
+      position: absolute;
+      opacity: 0;
+      cursor: pointer;
+      height: 0;
+      width: 0;
+    }
+
+    .toggle-slot {
+      position: relative;
+      height: 40px;
+      width: 80px;
+      border-radius: 10em;
+      background-color: white;
+      box-shadow: inset 1px 1px 2px 0 rgba(0, 0, 0, 0.25);
+      transition: background-color 250ms;
+    }
+
+    .toggle-checkbox:checked ~ .toggle-slot {
+      background-color: var(--color-black);
+    }
+
+    .toggle-button {
+      transform: translateY(-50%);
+      top: 50%;
+      left: 4px;
+      position: absolute;
+      height: 32px;
+      width: 32px;
+      border-radius: 50%;
+      background-color: #ffeccf;
+      transition: background-color 250ms, border-color 250ms,
+        transform 500ms ease;
+    }
+
+    .toggle-checkbox:checked ~ .toggle-slot .toggle-button {
+      background-color: #485367;
+      transform: translate(calc(100% + 8px), -50%);
+    }
+
+    .sun-icon {
+      position: absolute;
+      height: 32px;
+      width: 32px;
+    }
+
+    .sun-icon-wrapper {
+      position: absolute;
+      top: 50%;
+      left: 4px;
+      height: 32px;
+      width: 32px;
+      opacity: 1;
+      transform: translate(4px, -50%) rotate(15deg);
+      transform-origin: 50% 50%;
+      transition: opacity 150ms, transform 500ms ease;
+    }
+
+    .toggle-checkbox:checked ~ .toggle-slot .sun-icon-wrapper {
+      opacity: 0;
+      transform: translate(calc(100% + 8px), -50%) rotate(0deg);
+    }
+
+    .moon-icon {
+      position: absolute;
+      height: 32px;
+      width: 32px;
+    }
+
+    .moon-icon-wrapper {
+      position: absolute;
+      top: 50%;
+      right: 4px;
+      height: 32px;
+      width: 32px;
+      opacity: 0;
+      transform: translate(0, -50%) rotate(0deg);
+      transform-origin: 50% 50%;
+      transition: opacity 150ms, transform 500ms ease;
+    }
+
+    .toggle-checkbox:checked ~ .toggle-slot .moon-icon-wrapper {
+      opacity: 1;
+      transform: translate(calc(calc(-100%) - 4px), -50%) rotate(-15deg);
+    }
+  }
+
+  &-main {
+    height: 100%;
+    overflow: hidden;
+
+    &__light {
+      height: 100%;
+    }
+  }
+}

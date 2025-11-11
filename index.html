@@ -3,15 +3,22 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Home</title>
+    <title>Dragon Eden</title>
     <!-- import favicon -->
-    <link rel="icon" href="./assets/images/favicon.ico" type="image/x-icon" />
+    <link rel="icon" href="./assets/images/favicon.svg" type="image/x-icon" />
     <!-- meta -->
     <meta property="og:url" content="" />
     <meta property="og:type" content="website" />
-    <meta property="og:title" content="" />
-    <meta property="og:description" content="" />
+    <meta property="og:title" content="Dragon Eden" />
+    <meta
+      property="og:description"
+      content="Khu đô thị long mạch đất lành tại tọa độ vàng Tây Nam TP.HCM, kiến tạo di sản sống tinh hoa cho thế hệ an cư tương lai."
+    />
     <meta property="og:image" content="" />
+
+    <!-- font -->
+     <link rel="stylesheet" href="./assets/fonts/Vogun/stylesheet.css">
+
     <!-- meta -->
     <link rel="stylesheet" href="./assets/libs/bootstrap.min.css" />
     <link rel="stylesheet" href="./assets/libs/lenis.css" />
@@ -27,8 +34,64 @@
       }
     </script>
   </head>
+
+  <!-- magic cursor -->
+  <div class="magic-cursor">
+    <div class="cursor">
+      <img src="./assets/images/cursor.png" alt="">
+    </div>
+  </div>
+
   <body>
     <!-- layout -->
+    <main>
+      <section class="overview">
+        <div class="container-fluid p-0 h-100">
+          <div class="overview-switcher">
+            <label>
+              <input class="toggle-checkbox" type="checkbox"></input>
+              <div class="toggle-slot">
+                <div class="sun-icon-wrapper">
+                  <img src="./assets/images/header/sun.svg" alt="">
+                </div>
+                <div class="toggle-button"></div>
+                <div class="moon-icon-wrapper">
+                  <img src="./assets/images/header/sun.svg" alt="">
+                </div>
+              </div>
+            </label>
+          </div>
+          <div class="overview-main">
+            <div class="overview-main__light">
+              <img src="./assets/images/overview/overview-light.webp" alt="">
+            </div>
+            <div class="overview-main__dark d-none">
+              <img src="./assets/images/overview/overview-dark.webp" alt="">
+            </div>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <div class="intruction">
+      <div class="title">Hướng dẫn thao tác</div>
+      <div class="action">
+        <img src="./assets/images/drag.svg" alt="">
+        <span>hoặc</span>
+        <img src="./assets/images/mouse.svg" alt="">
+      </div>
+      <div class="desc">Chạm, di chuyển hoặc click vào <br> từng vị trí tham quan để xem chi tiết</div>
+    </div>
+
+    <div class="mascot">
+      <div class="robot">
+        <img src="./assets/images/robot.png" alt="">
+      </div>
+      <div class="dragon">
+        <img src="./assets/images/dragon.png" alt="">
+      </div>
+    </div>
+
     <!-- header -->
     <script>
       fetch("./components/header.html")
@@ -71,21 +134,6 @@
     </script>
     <header id="header"></header>
     <!-- end header -->
-    <main>
-      <h1>helo</h1>
-    </main>
-    <!-- layout -->
-    <!-- footer -->
-    <script>
-      fetch("./components/footer.html")
-        .then((response) => response.text())
-        .then((data) => {
-          document.getElementById("footer").innerHTML = data;
-        });
-    </script>
-    <footer id="footer"></footer>
-    <!-- end footer -->
-    <!-- end layout -->
 
     <script src="./assets/libs/jquery-3.7.1.js"></script>
     <script src="./assets/libs/lenis.min.js"></script>

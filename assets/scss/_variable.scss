@@ -1,0 +1,16 @@
+:root {
+  --font-primary: "Vogun", sans-serif;
+
+  --color-primary: #174642;
+  --color-secondary: #b79b79;
+  --color-white: #fff;
+  --color-black: #000;
+}
+
+body {
+  font-family: var(--font-primary);
+}
+
+* {
+  cursor: none !important;
+}
