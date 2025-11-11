@@ -67,6 +67,17 @@
   line-height: 1.2;
   letter-spacing: 0.04px;
 
+  transform: translateY(30px);
+  opacity: 0;
+  pointer-events: none;
+  transition: all 0.8s ease;
+
+  &.open {
+    transform: translate(0);
+    opacity: 1;
+    pointer-events: auto;
+  }
+
   .title {
     font-size: 16px;
     line-height: 1.2;
@@ -80,6 +91,21 @@
     justify-content: center;
     gap: 25px;
   }
+
+  .icon-close {
+    width: 32px;
+    height: 32px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: var(--color-secondary);
+
+    position: absolute;
+    top: 0;
+    right: 0;
+    transform: translateY(-100%);
+  }
 }
 
 .magic-cursor {
@@ -87,7 +113,7 @@
   top: 0;
   left: 0;
   pointer-events: none;
-  z-index: 1061;
+  z-index: 9999999;
 
   @media (max-width: 1023px) {
     display: none;

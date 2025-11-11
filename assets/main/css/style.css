@@ -150,6 +150,15 @@ body {
   font-size: 12px;
   line-height: 1.2;
   letter-spacing: 0.04px;
+  transform: translateY(30px);
+  opacity: 0;
+  pointer-events: none;
+  transition: all 0.8s ease;
+}
+.intruction.open {
+  transform: translate(0);
+  opacity: 1;
+  pointer-events: auto;
 }
 .intruction .title {
   font-size: 16px;
@@ -163,13 +172,25 @@ body {
   justify-content: center;
   gap: 25px;
 }
+.intruction .icon-close {
+  width: 32px;
+  height: 32px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: var(--color-secondary);
+  position: absolute;
+  top: 0;
+  right: 0;
+  transform: translateY(-100%);
+}
 
 .magic-cursor {
   position: fixed;
   top: 0;
   left: 0;
   pointer-events: none;
-  z-index: 1061;
+  z-index: 9999999;
 }
 @media (max-width: 1023px) {
   .magic-cursor {
@@ -213,6 +234,14 @@ body {
 .magic-cursor .text {
   min-width: max-content;
   opacity: 0;
+}
+
+#header.header-sticky {
+  position: fixed;
+  width: 100%;
+  left: 0;
+  bottom: 0;
+  z-index: 100;
 }
 
 .header-container {
@@ -382,4 +411,138 @@ body {
   z-index: 3;
   opacity: 1;
   visibility: visible;
+}
+
+.gallery {
+  background: var(--bg-section);
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  min-height: 100dvh;
+}
+.gallery .nav-tabs {
+  justify-content: center;
+  border: none;
+  gap: 10px;
+  padding: 24px 0 40px;
+}
+.gallery .nav-tabs .nav-link {
+  background-color: var(--color-white);
+  border: none;
+  color: var(--color-primary);
+  font-size: 12px;
+  line-height: 1.2;
+  letter-spacing: 0.04px;
+  padding: 13px 16px;
+  border-radius: 50px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  overflow: hidden;
+  transition: all 0.3s ease;
+}
+.gallery .nav-tabs .nav-link span {
+  position: relative;
+  z-index: 3;
+}
+.gallery .nav-tabs .nav-link:hover, .gallery .nav-tabs .nav-link.active {
+  background-color: var(--color-primary);
+  color: var(--color-white);
+}
+.gallery .nav-tabs .nav-link:hover::after, .gallery .nav-tabs .nav-link.active::after {
+  opacity: 1;
+}
+.gallery .nav-tabs .nav-link::after {
+  content: "";
+  background: linear-gradient(rgb(0, 61, 56) 0%, rgb(17, 190, 154) 100%);
+  opacity: 0;
+  pointer-events: none;
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+  transition: all 0.4s ease;
+}
+.gallery .gallery-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 24px;
+  padding: 0 40px 40px;
+}
+.gallery .gallery-list .gallery-item {
+  border-radius: 12px;
+  overflow: hidden;
+  aspect-ratio: 437/236;
+  position: relative;
+  width: calc((100% - 48px) / 3);
+}
+.gallery .gallery-list .gallery-item::after {
+  content: "";
+  width: 150%;
+  height: 250%;
+  background: linear-gradient(to right, #0ea889, #0f302e);
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  animation: spin 10s linear infinite;
+  z-index: 1;
+  transform-origin: center;
+}
+.gallery .gallery-list .gallery-item img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+.gallery .gallery-list .gallery-item .image {
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 2;
+  transition: all 0.4s ease;
+  border-radius: 12px;
+  overflow: hidden;
+}
+.gallery .gallery-list .gallery-item:hover .icon-play {
+  background-color: var(--color-secondary);
+}
+.gallery .gallery-list .gallery-item:hover .image {
+  width: calc(100% - 20px);
+  height: calc(100% - 20px);
+}
+.gallery .gallery-list .gallery-item .icon-play {
+  width: 46px;
+  height: 46px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: absolute;
+  z-index: 3;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background-color: var(--color-primary);
+  color: var(--color-white);
+  transition: all 0.4s ease;
+}
+.gallery .fade {
+  transition: opacity 0.4s linear;
+}
+
+.gslide-media {
+  width: auto;
+  max-width: 1100px;
+}
+
+@keyframes spin {
+  from {
+    transform: translate(-50%, -50%) rotate(0deg);
+  }
+  to {
+    transform: translate(-50%, -50%) rotate(360deg);
+  }
 }

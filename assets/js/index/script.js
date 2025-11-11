@@ -86,10 +86,90 @@ function sectionOverview() {
   });
 }
 
+function loading() {
+  if (!document.querySelector(".loading")) return;
+  const logo = document.getElementById("logo");
+  const loadingAfter = document.querySelector(".loading");
+  // const yPos = window.innerHeight - 173;
+  const YPOS = {
+    mobile: window.innerHeight - 115,
+    desktop: window.innerHeight - 173
+  };
+
+  const yPos = window.innerWidth < 991 ? YPOS.mobile : YPOS.desktop;
+  const ASPECT_RATIOS = {
+    mobile: 3,
+    desktop: 145 / 28
+  };
+  const aspectRatio =
+    window.innerWidth < 1024 ? ASPECT_RATIOS.mobile : ASPECT_RATIOS.desktop;
+  const paddingTop = 15;
+
+  gsap.set(logo, {
+    y: yPos,
+    scale: aspectRatio
+  });
+
+  gsap.set(loadingAfter, {
+    "--after-height": "0px"
+  });
+
+  gsap.to(logo, {
+    y: 0,
+    duration: 2,
+    ease: "expo.in",
+    onUpdate: function () {
+      const logoRect = logo.getBoundingClientRect();
+      const logoTop = logoRect.top;
+      const afterHeight = window.innerHeight - logoTop + paddingTop;
+      gsap.set(loadingAfter, {
+        "--after-height": afterHeight + "px"
+      });
+    },
+    onComplete: () => {
+      gsap.to(logo, {
+        scale: 1,
+        duration: 1,
+        ease: "expo.in",
+        onComplete: () => {
+          document.querySelector(".loading").classList.add("loaded");
+        }
+      });
+    }
+  });
+}
+
+function popupIntruction() {
+  if ($(".intruction").length < 1) return;
+
+  const btnCloseIntruction = $(".intruction .icon-close");
+  const popupIntruction = $(".intruction");
+
+  setTimeout(() => {
+    popupIntruction.addClass("open");
+  }, 2000);
+
+  btnCloseIntruction.on("click", function () {
+    popupIntruction.removeClass("open");
+  });
+}
+
+function sectionGallery() {
+  var lightboxDescription = GLightbox({
+    selector: ".glightbox",
+    loop: true,
+    touchNavigation: true,
+    autoplayVideos: true
+  });
+}
+
 const init = () => {
   gsap.registerPlugin(ScrollTrigger);
   magicCursor();
   sectionOverview();
+  // loading();
+  popupIntruction();
+  sectionGallery();
 };
 preloadImages("img").then(() => {
   // Once images are preloaded, remove the 'loading' indicator/class from the body
