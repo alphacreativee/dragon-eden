@@ -236,7 +236,7 @@ body {
   opacity: 0;
 }
 
-#header.header-sticky {
+#header {
   position: fixed;
   width: 100%;
   left: 0;
