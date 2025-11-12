@@ -87,56 +87,23 @@ function sectionOverview() {
 }
 
 function loading() {
-  if (!document.querySelector(".loading")) return;
-  const logo = document.getElementById("logo");
-  const loadingAfter = document.querySelector(".loading");
-  // const yPos = window.innerHeight - 173;
-  const YPOS = {
-    mobile: window.innerHeight - 115,
-    desktop: window.innerHeight - 173
-  };
+  const loadingEl = document.querySelector(".loading");
+  if (!loadingEl) return;
 
-  const yPos = window.innerWidth < 991 ? YPOS.mobile : YPOS.desktop;
-  const ASPECT_RATIOS = {
-    mobile: 3,
-    desktop: 145 / 28
-  };
-  const aspectRatio =
-    window.innerWidth < 1024 ? ASPECT_RATIOS.mobile : ASPECT_RATIOS.desktop;
-  const paddingTop = 15;
-
-  gsap.set(logo, {
-    y: yPos,
-    scale: aspectRatio
+  const tl = gsap.timeline({
+    defaults: { ease: "power2.inOut" }
   });
 
-  gsap.set(loadingAfter, {
-    "--after-height": "0px"
-  });
-
-  gsap.to(logo, {
-    y: 0,
-    duration: 2,
-    ease: "expo.in",
-    onUpdate: function () {
-      const logoRect = logo.getBoundingClientRect();
-      const logoTop = logoRect.top;
-      const afterHeight = window.innerHeight - logoTop + paddingTop;
-      gsap.set(loadingAfter, {
-        "--after-height": afterHeight + "px"
-      });
-    },
-    onComplete: () => {
-      gsap.to(logo, {
-        scale: 1,
-        duration: 1,
-        ease: "expo.in",
-        onComplete: () => {
-          document.querySelector(".loading").classList.add("loaded");
-        }
-      });
+  tl.fromTo(".loading .logo", { opacity: 0 }, { opacity: 1, duration: 0.8 }).to(
+    ".loading",
+    {
+      clipPath: "inset(0% 0% 0% 100%)",
+      duration: 1.7,
+      onComplete: () => {
+        loadingEl.classList.add("d-none");
+      }
     }
-  });
+  );
 }
 
 function popupIntruction() {
@@ -155,6 +122,8 @@ function popupIntruction() {
 }
 
 function sectionGallery() {
+  if ($(".gallery").length < 1) return;
+
   var lightboxDescription = GLightbox({
     selector: ".glightbox",
     loop: true,
@@ -167,7 +136,7 @@ const init = () => {
   gsap.registerPlugin(ScrollTrigger);
   magicCursor();
   sectionOverview();
-  // loading();
+  loading();
   popupIntruction();
   sectionGallery();
 };
@@ -183,7 +152,6 @@ $("a").on("click", function (e) {
   // Nếu liên kết dẫn đến trang khác (không phải hash link hoặc javascript void)
   if (this.href && !this.href.match(/^#/) && !this.href.match(/^javascript:/)) {
     isLinkClicked = true;
-    console.log("1");
   }
 });
 
