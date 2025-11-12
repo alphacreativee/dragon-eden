@@ -135,6 +135,64 @@ function sectionGallery() {
   });
 }
 
+function sectionFacilities() {
+  const section = document.querySelector(".facilities");
+  if (!section) return;
+
+  const svg = section.querySelector("svg");
+  const tooltipsContainer = section.querySelector(".tooltips");
+  if (!svg || !tooltipsContainer) return;
+
+  // Handle tab hover to show corresponding area and add active class
+  const facilitiesTabs = section.querySelectorAll(".facilities-tabs .tab-item");
+  facilitiesTabs.forEach((tab) => {
+    tab.addEventListener("mouseenter", function () {
+      facilitiesTabs.forEach((t) => t.classList.remove("active"));
+      tab.classList.add("active");
+
+      const tabData = tab.getAttribute("data-tab");
+      const areas = section.querySelectorAll("svg .area");
+
+      areas.forEach((area) => area.classList.add("hide")); // hide all by default
+
+      if (tabData !== "all") {
+        const activeArea = section.querySelector(
+          `svg .area[data-tab='${tabData}']`
+        );
+        if (activeArea) activeArea.classList.remove("hide"); // only show active tab area
+      }
+    });
+  });
+
+  // Create tooltips for all dots in the SVG
+  const dots = svg.querySelectorAll(".dot");
+  const svgRect = svg.getBoundingClientRect();
+
+  tooltipsContainer.innerHTML = ""; // Clear previous tooltips
+
+  dots.forEach((dot) => {
+    const box = dot.getBBox();
+    const centerX = box.x + box.width / 2;
+    const centerY = box.y;
+
+    const tooltip = document.createElement("div");
+    tooltip.className = "tooltip-area";
+    tooltip.textContent = dot.dataset.text;
+
+    // Convert SVG point to screen coordinates
+    const pt = svg.createSVGPoint();
+    pt.x = centerX;
+    pt.y = centerY;
+    const screenPoint = pt.matrixTransform(svg.getScreenCTM());
+
+    // Position tooltip above the dot
+    tooltip.style.left = `${screenPoint.x - svgRect.left}px`;
+    tooltip.style.top = `${screenPoint.y - svgRect.top - 60}px`;
+
+    tooltipsContainer.appendChild(tooltip);
+  });
+}
+
 const init = () => {
   gsap.registerPlugin(ScrollTrigger);
   magicCursor();
@@ -142,6 +200,7 @@ const init = () => {
   loading();
   popupIntruction();
   sectionGallery();
+  sectionFacilities();
 };
 preloadImages("img").then(() => {
   // Once images are preloaded, remove the 'loading' indicator/class from the body

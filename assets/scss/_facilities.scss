@@ -1,0 +1,143 @@
+.facilities {
+  &-tabs {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 10px;
+
+    position: fixed;
+    width: 100%;
+    z-index: 10;
+    top: 24px;
+    left: 50%;
+    transform: translateX(-50%);
+
+    .tab-item {
+      font-size: 12px;
+      line-height: 1.2;
+      letter-spacing: 0.04px;
+      padding: 13px 32px;
+      border-radius: 50px;
+      overflow: hidden;
+      position: relative;
+      background-color: var(--color-white);
+      width: max-content;
+      transition: all 0.4s ease;
+      text-transform: uppercase;
+
+      span {
+        position: relative;
+        z-index: 3;
+        transition: all 0.4s ease;
+      }
+
+      &::after {
+        content: "";
+        background: linear-gradient(rgb(0, 61, 56) 0%, rgb(17, 190, 154) 100%);
+        opacity: 0;
+        pointer-events: none;
+        position: absolute;
+        inset: 0;
+        z-index: 2;
+        transition: all 0.4s ease;
+      }
+
+      &:hover,
+      &.active {
+        background-color: var(--color-primary);
+        color: var(--color-white);
+        &::after {
+          opacity: 1;
+        }
+      }
+    }
+  }
+
+  &-wrapper {
+    width: 100%;
+    height: calc(100dvh - 70px);
+    position: relative;
+
+    .image {
+      width: 100%;
+      aspect-ratio: 1440 / 741;
+
+      img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+      }
+
+      &-overlay {
+        width: 100%;
+        aspect-ratio: 1440 / 741;
+        position: absolute;
+        top: 0;
+        left: 0;
+        z-index: 2;
+
+        svg {
+          width: 100%;
+          height: 100%;
+          object-fit: cover;
+        }
+
+        .area {
+          transition: opacity 0.4s ease;
+          pointer-events: none;
+
+          &.hide {
+            opacity: 0;
+          }
+        }
+
+        .dot {
+          position: relative;
+        }
+
+        .tooltip-area {
+          position: absolute;
+          background: white;
+          color: black;
+          font-size: 12px;
+          line-height: 1.2;
+          letter-spacing: 0.04px;
+          padding: 13px 16px;
+          border-radius: 50px;
+          white-space: nowrap;
+          transform: translate(-50%, -120%);
+          pointer-events: none;
+          text-transform: uppercase;
+
+          &::after {
+            content: "";
+            width: 1px;
+            height: 0;
+            background-color: white;
+            position: absolute;
+            left: 50%;
+            bottom: -60px;
+            transform: translateX(-50%);
+            animation: lineGrowShrink 2.5s ease-in-out infinite;
+          }
+        }
+      }
+    }
+  }
+}
+
+@keyframes lineGrowShrink {
+  0% {
+    height: 0;
+    bottom: -60px;
+  }
+  50% {
+    height: 60px;
+    bottom: -60px;
+  }
+  100% {
+    height: 0;
+    bottom: 0;
+  }
+}
