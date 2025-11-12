@@ -1,6 +1,6 @@
 // overview
 .overview {
-  height: 100dvh;
+  height: calc(100dvh - 70px);
   position: relative;
 
   &-switcher {
@@ -55,7 +55,7 @@
       width: 32px;
     }
 
-    .sun-icon-wrapper {
+    .moon-icon-wrapper {
       position: absolute;
       top: 50%;
       left: 4px;
@@ -65,11 +65,12 @@
       transform: translate(4px, -50%) rotate(15deg);
       transform-origin: 50% 50%;
       transition: opacity 150ms, transform 500ms ease;
+
+      animation: fadePulse 3s ease-in-out infinite;
     }
 
-    .toggle-checkbox:checked ~ .toggle-slot .sun-icon-wrapper {
-      opacity: 0;
-      transform: translate(calc(100% + 8px), -50%) rotate(0deg);
+    .toggle-checkbox:checked ~ .toggle-slot .moon-icon-wrapper {
+      opacity: 1;
     }
 
     .moon-icon {
@@ -78,21 +79,22 @@
       width: 32px;
     }
 
-    .moon-icon-wrapper {
+    .sun-icon-wrapper {
       position: absolute;
       top: 50%;
       right: 4px;
       height: 32px;
       width: 32px;
-      opacity: 0;
+      opacity: 1;
       transform: translate(0, -50%) rotate(0deg);
       transform-origin: 50% 50%;
       transition: opacity 150ms, transform 500ms ease;
+
+      animation: spinReverse 20s linear infinite;
     }
 
-    .toggle-checkbox:checked ~ .toggle-slot .moon-icon-wrapper {
-      opacity: 1;
-      transform: translate(calc(calc(-100%) - 4px), -50%) rotate(-15deg);
+    .toggle-checkbox:checked ~ .toggle-slot .sun-icon-wrapper {
+      opacity: 0;
     }
   }
 
@@ -118,5 +120,29 @@
         visibility: visible;
       }
     }
+  }
+}
+
+@keyframes fadePulse {
+  0% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.6;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+
+@keyframes spinReverse {
+  0% {
+    transform: translate(0, -50%) rotate(0deg);
+  }
+  50% {
+    transform: translate(0, -50%) rotate(360deg);
+  }
+  100% {
+    transform: translate(0, -50%) rotate(0deg);
   }
 }

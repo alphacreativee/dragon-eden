@@ -94,16 +94,19 @@ function loading() {
     defaults: { ease: "power2.inOut" }
   });
 
-  tl.fromTo(".loading .logo", { opacity: 0 }, { opacity: 1, duration: 0.8 }).to(
-    ".loading",
+  tl.fromTo(
+    ".loading .logo",
+    { opacity: 0 },
     {
-      clipPath: "inset(0% 0% 0% 100%)",
-      duration: 1.7,
-      onComplete: () => {
-        loadingEl.classList.add("d-none");
-      }
+      opacity: 1,
+      duration: 0.8,
+      ease: "none"
     }
-  );
+  ).to(".loading", {
+    clipPath: "inset(0% 0% 0% 100%)",
+    duration: 1.7,
+    onComplete: () => loadingEl.classList.add("d-none")
+  });
 }
 
 function popupIntruction() {
@@ -114,7 +117,7 @@ function popupIntruction() {
 
   setTimeout(() => {
     popupIntruction.addClass("open");
-  }, 2000);
+  }, 3000);
 
   btnCloseIntruction.on("click", function () {
     popupIntruction.removeClass("open");

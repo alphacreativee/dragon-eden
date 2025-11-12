@@ -311,7 +311,7 @@ body {
 }
 
 .overview {
-  height: 100dvh;
+  height: calc(100dvh - 70px);
   position: relative;
 }
 .overview-switcher {
@@ -359,7 +359,7 @@ body {
   height: 32px;
   width: 32px;
 }
-.overview-switcher .sun-icon-wrapper {
+.overview-switcher .moon-icon-wrapper {
   position: absolute;
   top: 50%;
   left: 4px;
@@ -369,30 +369,30 @@ body {
   transform: translate(4px, -50%) rotate(15deg);
   transform-origin: 50% 50%;
   transition: opacity 150ms, transform 500ms ease;
+  animation: fadePulse 3s ease-in-out infinite;
 }
-.overview-switcher .toggle-checkbox:checked ~ .toggle-slot .sun-icon-wrapper {
-  opacity: 0;
-  transform: translate(calc(100% + 8px), -50%) rotate(0deg);
+.overview-switcher .toggle-checkbox:checked ~ .toggle-slot .moon-icon-wrapper {
+  opacity: 1;
 }
 .overview-switcher .moon-icon {
   position: absolute;
   height: 32px;
   width: 32px;
 }
-.overview-switcher .moon-icon-wrapper {
+.overview-switcher .sun-icon-wrapper {
   position: absolute;
   top: 50%;
   right: 4px;
   height: 32px;
   width: 32px;
-  opacity: 0;
+  opacity: 1;
   transform: translate(0, -50%) rotate(0deg);
   transform-origin: 50% 50%;
   transition: opacity 150ms, transform 500ms ease;
+  animation: spinReverse 20s linear infinite;
 }
-.overview-switcher .toggle-checkbox:checked ~ .toggle-slot .moon-icon-wrapper {
-  opacity: 1;
-  transform: translate(calc(-100% - 4px), -50%) rotate(-15deg);
+.overview-switcher .toggle-checkbox:checked ~ .toggle-slot .sun-icon-wrapper {
+  opacity: 0;
 }
 .overview-main {
   height: 100%;
@@ -416,6 +416,28 @@ body {
   visibility: visible;
 }
 
+@keyframes fadePulse {
+  0% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.6;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+@keyframes spinReverse {
+  0% {
+    transform: translate(0, -50%) rotate(0deg);
+  }
+  50% {
+    transform: translate(0, -50%) rotate(360deg);
+  }
+  100% {
+    transform: translate(0, -50%) rotate(0deg);
+  }
+}
 .gallery {
   background: var(--bg-section);
   background-size: cover;
