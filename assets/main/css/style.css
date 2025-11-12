@@ -347,12 +347,28 @@ body {
   height: 32px;
   width: 32px;
   border-radius: 50%;
-  background-color: #ffeccf;
+  background-color: transparent;
   transition: background-color 250ms, border-color 250ms, transform 500ms ease;
 }
+.overview-switcher .toggle-button img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  position: absolute;
+  inset: 0;
+  transition: opacity 0.3s ease;
+}
+.overview-switcher .toggle-button .icon-moon {
+  opacity: 0;
+}
 .overview-switcher .toggle-checkbox:checked ~ .toggle-slot .toggle-button {
-  background-color: #485367;
   transform: translate(calc(100% + 8px), -50%);
+}
+.overview-switcher .toggle-checkbox:checked ~ .toggle-slot .toggle-button .icon-sun {
+  opacity: 0;
+}
+.overview-switcher .toggle-checkbox:checked ~ .toggle-slot .toggle-button .icon-moon {
+  opacity: 1;
 }
 .overview-switcher .sun-icon {
   position: absolute;
