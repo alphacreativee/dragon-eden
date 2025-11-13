@@ -1,6 +1,7 @@
 .gallery {
   position: relative;
   min-height: 100dvh;
+  margin-bottom: 70px;
 
   &::after {
     content: "";
@@ -26,6 +27,13 @@
     border: none;
     gap: 10px;
     padding: 24px 0 40px;
+
+    position: fixed;
+    z-index: 3;
+    top: 24px;
+    left: 50%;
+    transform: translateX(-50%);
+    padding: 0;
 
     .nav-link {
       background-color: var(--color-white);
@@ -69,6 +77,10 @@
         transition: all 0.4s ease;
       }
     }
+  }
+
+  .tab-content {
+    padding-top: 104px;
   }
 
   .gallery-list {
@@ -179,6 +191,10 @@
       left: 50%;
       transform: translateX(-50%);
       padding: 0;
+    }
+
+    .tab-content {
+      padding-top: 0;
     }
   }
 }
