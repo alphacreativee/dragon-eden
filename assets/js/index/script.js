@@ -153,13 +153,15 @@ function sectionFacilities() {
       const tabData = tab.getAttribute("data-tab");
       const areas = section.querySelectorAll("svg .area");
 
-      areas.forEach((area) => area.classList.add("hide")); // hide all by default
+      // hide all by default
+      areas.forEach((area) => area.classList.add("hide"));
 
+      // only show active tab area
       if (tabData !== "all") {
         const activeArea = section.querySelector(
           `svg .area[data-tab='${tabData}']`
         );
-        if (activeArea) activeArea.classList.remove("hide"); // only show active tab area
+        if (activeArea) activeArea.classList.remove("hide");
       }
     });
   });
@@ -177,7 +179,17 @@ function sectionFacilities() {
 
     const tooltip = document.createElement("div");
     tooltip.className = "tooltip-area";
-    tooltip.textContent = dot.dataset.text;
+
+    // Lấy nội dung hiển thị
+    tooltip.innerHTML = dot.dataset.text;
+
+    // ⚡ Lấy data-height-line, nếu không có thì mặc định 70
+    const lineHeight = dot.dataset.heightLine
+      ? parseInt(dot.dataset.heightLine, 10)
+      : 70;
+
+    // Gán CSS variable cho tooltip
+    tooltip.style.setProperty("--line-height", `${lineHeight}px`);
 
     // Convert SVG point to screen coordinates
     const pt = svg.createSVGPoint();
@@ -187,7 +199,7 @@ function sectionFacilities() {
 
     // Position tooltip above the dot
     tooltip.style.left = `${screenPoint.x - svgRect.left}px`;
-    tooltip.style.top = `${screenPoint.y - svgRect.top - 60}px`;
+    tooltip.style.top = `${screenPoint.y - svgRect.top - (lineHeight + 10)}px`; // cách dot 10px
 
     tooltipsContainer.appendChild(tooltip);
   });

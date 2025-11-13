@@ -595,6 +595,7 @@ body {
   gap: 10px;
   position: fixed;
   width: 100%;
+  max-width: 90%;
   z-index: 10;
   top: 24px;
   left: 50%;
@@ -682,9 +683,10 @@ body {
   padding: 13px 16px;
   border-radius: 50px;
   white-space: nowrap;
-  transform: translate(-50%, -120%);
+  transform: translate(-50%, -50%);
   pointer-events: none;
   text-transform: uppercase;
+  text-align: center;
 }
 .facilities-wrapper .image-overlay .tooltip-area::after {
   content: "";
@@ -693,7 +695,7 @@ body {
   background-color: white;
   position: absolute;
   left: 50%;
-  bottom: -60px;
+  bottom: calc(var(--line-height) * -1);
   transform: translateX(-50%);
   animation: lineGrowShrink 2.5s ease-in-out infinite;
 }
@@ -701,11 +703,11 @@ body {
 @keyframes lineGrowShrink {
   0% {
     height: 0;
-    bottom: -60px;
+    bottom: calc(var(--line-height) * -1);
   }
   50% {
-    height: 60px;
-    bottom: -60px;
+    height: var(--line-height);
+    bottom: calc(var(--line-height) * -1);
   }
   100% {
     height: 0;
