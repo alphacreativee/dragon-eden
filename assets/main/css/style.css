@@ -570,8 +570,32 @@ body {
   color: var(--color-white);
   transition: all 0.4s ease;
 }
+.gallery .model-wrapper {
+  width: 100%;
+  height: calc(100dvh - 70px);
+  position: relative;
+}
+.gallery .model-wrapper .text {
+  font-size: 16px;
+  line-height: 1.2;
+  letter-spacing: 0.04px;
+  position: absolute;
+  bottom: 24px;
+  left: 50%;
+  transform: translateX(-50%);
+  color: var(--color-white);
+  z-index: 2;
+}
 .gallery .fade {
   transition: opacity 0.4s linear;
+}
+.gallery.section-model .nav-tabs {
+  position: absolute;
+  z-index: 3;
+  top: 24px;
+  left: 50%;
+  transform: translateX(-50%);
+  padding: 0;
 }
 
 .gslide-media {
