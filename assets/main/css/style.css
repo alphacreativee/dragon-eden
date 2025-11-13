@@ -455,11 +455,25 @@ body {
   }
 }
 .gallery {
-  background: var(--bg-section);
-  background-size: cover;
-  background-position: center;
-  background-repeat: no-repeat;
+  position: relative;
   min-height: 100dvh;
+}
+.gallery::after {
+  content: "";
+  width: 100%;
+  height: calc(100dvh - 70px);
+  position: fixed;
+  z-index: 1;
+  top: 0;
+  left: 0;
+  background: url("../../images/bg.jpg");
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-position: center;
+}
+.gallery-wrapper {
+  position: relative;
+  z-index: 3;
 }
 .gallery .nav-tabs {
   justify-content: center;
@@ -470,7 +484,7 @@ body {
 .gallery .nav-tabs .nav-link {
   background-color: var(--color-white);
   border: none;
-  color: var(--color-primary);
+  color: var(--color-third);
   font-size: 12px;
   line-height: 1.2;
   letter-spacing: 0.04px;
@@ -746,4 +760,37 @@ body {
   height: 100%;
   object-fit: cover;
   object-position: bottom right;
+}
+
+.leaflet {
+  position: relative;
+}
+.leaflet::after {
+  content: "";
+  width: 100%;
+  height: calc(100dvh - 70px);
+  position: fixed;
+  z-index: 1;
+  top: 0;
+  left: 0;
+  background: url("../../images/bg.jpg");
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-position: center;
+}
+.leaflet-wrapper {
+  position: relative;
+  z-index: 2;
+  width: 100%;
+  max-width: 1175px;
+  margin: 0 auto;
+  padding: 48px 0 118px;
+}
+.leaflet-wrapper .wp-block-image {
+  width: 100%;
+  border: 2px solid var(--color-white);
+}
+.leaflet-wrapper .wp-block-image img {
+  height: auto;
+  object-fit: contain;
 }

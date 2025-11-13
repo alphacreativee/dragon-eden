@@ -1,10 +1,25 @@
 .gallery {
-  background: var(--bg-section);
-  background-size: cover;
-  background-position: center;
-  background-repeat: no-repeat;
-
+  position: relative;
   min-height: 100dvh;
+
+  &::after {
+    content: "";
+    width: 100%;
+    height: calc(100dvh - 70px);
+    position: fixed;
+    z-index: 1;
+    top: 0;
+    left: 0;
+    background: url("../../images/bg.jpg");
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center;
+  }
+
+  &-wrapper {
+    position: relative;
+    z-index: 3;
+  }
 
   .nav-tabs {
     justify-content: center;
@@ -15,7 +30,7 @@
     .nav-link {
       background-color: var(--color-white);
       border: none;
-      color: var(--color-primary);
+      color: var(--color-third);
       font-size: 12px;
       line-height: 1.2;
       letter-spacing: 0.04px;
