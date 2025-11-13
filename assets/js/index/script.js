@@ -127,11 +127,43 @@ function popupIntruction() {
 function sectionGallery() {
   if ($(".gallery").length < 1) return;
 
-  var lightboxDescription = GLightbox({
-    selector: ".glightbox",
-    loop: true,
-    touchNavigation: true,
-    autoplayVideos: true
+  let lightboxInstance = null; // Lưu instance hiện tại của Glightbox
+
+  function initLightboxForActiveTab() {
+    // Hủy instance cũ nếu có
+    if (lightboxInstance) {
+      lightboxInstance.destroy();
+      lightboxInstance = null;
+    }
+
+    // Lấy tab đang active
+    const activeTab = document.querySelector(".tab-pane.active.show");
+    if (!activeTab) return;
+
+    // Đặt đúng selector (phải có dấu #)
+    const selector = `#${activeTab.id} .glightbox`;
+
+    // Nếu tab này không có phần tử nào thì bỏ qua
+    if (!activeTab.querySelector(".glightbox")) return;
+
+    // Khởi tạo Glightbox riêng cho tab đó
+    lightboxInstance = GLightbox({
+      selector: selector,
+      loop: true,
+      touchNavigation: true,
+      autoplayVideos: true
+    });
+  }
+
+  // Khởi tạo khi trang load
+  initLightboxForActiveTab();
+
+  // Re-init khi đổi tab
+  const tabButtons = document.querySelectorAll('[data-bs-toggle="tab"]');
+  tabButtons.forEach((btn) => {
+    btn.addEventListener("shown.bs.tab", function () {
+      initLightboxForActiveTab();
+    });
   });
 }
 

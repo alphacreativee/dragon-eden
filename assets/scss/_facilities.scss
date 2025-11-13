@@ -57,17 +57,20 @@
 
   &-wrapper {
     width: 100%;
-    height: calc(100dvh - 70px);
+    // height: calc(100dvh - 70px);
     position: relative;
+    margin-bottom: 68px;
 
     .image {
       width: 100%;
       aspect-ratio: 1440 / 741;
+      min-height: 100%;
 
       img {
         width: 100%;
         height: 100%;
         object-fit: cover;
+        object-position: bottom;
       }
 
       &-overlay {
@@ -78,10 +81,18 @@
         left: 0;
         z-index: 2;
 
+        min-height: 100%;
+
+        .map-wrapper {
+          width: 100%;
+          height: 100%;
+        }
+
         svg {
           width: 100%;
           height: 100%;
           object-fit: cover;
+          object-position: bottom;
         }
 
         .area {
