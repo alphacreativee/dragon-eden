@@ -91,22 +91,46 @@ function loading() {
   if (!loadingEl) return;
 
   const tl = gsap.timeline({
-    defaults: { ease: "power2.inOut" }
+    defaults: { ease: "none" }
   });
 
-  tl.fromTo(
-    ".loading .logo",
-    { opacity: 0 },
-    {
-      opacity: 1,
-      duration: 0.8,
-      ease: "none"
-    }
-  ).to(".loading", {
-    clipPath: "inset(0% 0% 0% 100%)",
-    duration: 1.7,
-    onComplete: () => loadingEl.classList.add("d-none")
-  });
+  const namePaths = document.querySelectorAll(".logo-name");
+
+  // RESET trạng thái
+  gsap.set(".logo-image", { opacity: 0 });
+  gsap.set(namePaths, { opacity: 0 });
+  gsap.set(".logo-slogan", { opacity: 0 });
+
+  tl.to(".logo-image", {
+    opacity: 1,
+    duration: 0.5
+  })
+
+    .to(
+      namePaths,
+      {
+        opacity: 1,
+        stagger: 0.06,
+        duration: 0.6
+      },
+      ">-=0.1"
+    )
+
+    .to(
+      ".logo-slogan",
+      {
+        opacity: 1,
+        duration: 0.4
+      },
+      ">"
+    )
+
+    .to(".loading", {
+      clipPath: "inset(0% 0% 0% 100%)",
+      // opacity: 0,
+      duration: 1,
+      onComplete: () => loadingEl.classList.add("d-none")
+    });
 }
 
 function popupIntruction() {
