@@ -97,7 +97,7 @@
 
         .area {
           transition: opacity 0.4s ease;
-          pointer-events: none;
+          // pointer-events: none;
 
           &.hide {
             opacity: 0;
@@ -115,12 +115,12 @@
           font-size: 12px;
           line-height: 1.2;
           letter-spacing: 0.04px;
-          padding: 13px 16px;
+          padding: 8px 14px;
           border-radius: 50px;
           white-space: nowrap;
           transform: translate(-50%, -50%);
           pointer-events: none;
-          text-transform: uppercase;
+          // text-transform: uppercase;
           text-align: center;
 
           &::after {

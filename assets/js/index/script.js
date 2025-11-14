@@ -175,34 +175,55 @@ function sectionFacilities() {
   const tooltipsContainer = section.querySelector(".tooltips");
   if (!svg || !tooltipsContainer) return;
 
-  // Handle tab hover to show corresponding area and add active class
+  // ===== TAB HOVER HANDLER =====
   const facilitiesTabs = section.querySelectorAll(".facilities-tabs .tab-item");
+
+  function activateTab(tabData) {
+    // remove active from all tabs
+    facilitiesTabs.forEach((t) => t.classList.remove("active"));
+
+    // add active to matched tab
+    const matchedTab = section.querySelector(
+      `.tab-item[data-tab='${tabData}']`
+    );
+    if (matchedTab) matchedTab.classList.add("active");
+
+    // hide all svg areas
+    const areas = section.querySelectorAll("svg .area");
+    areas.forEach((area) => area.classList.add("hide"));
+
+    // show only matched area
+    if (tabData !== "all") {
+      const activeArea = section.querySelector(
+        `svg .area[data-tab='${tabData}']`
+      );
+      if (activeArea) activeArea.classList.remove("hide");
+    }
+  }
+
+  // Tab hover event
   facilitiesTabs.forEach((tab) => {
     tab.addEventListener("mouseenter", function () {
-      facilitiesTabs.forEach((t) => t.classList.remove("active"));
-      tab.classList.add("active");
-
       const tabData = tab.getAttribute("data-tab");
-      const areas = section.querySelectorAll("svg .area");
-
-      // hide all by default
-      areas.forEach((area) => area.classList.add("hide"));
-
-      // only show active tab area
-      if (tabData !== "all") {
-        const activeArea = section.querySelector(
-          `svg .area[data-tab='${tabData}']`
-        );
-        if (activeArea) activeArea.classList.remove("hide");
-      }
+      activateTab(tabData);
     });
   });
 
-  // Create tooltips for all dots in the SVG
+  // ===== AREA HOVER HANDLER (NEW) =====
+  const svgAreas = svg.querySelectorAll(".area");
+
+  svgAreas.forEach((area) => {
+    area.addEventListener("mouseenter", function () {
+      const tabData = area.getAttribute("data-tab");
+      activateTab(tabData);
+    });
+  });
+
+  // ===== TOOLTIP CREATION =====
   const dots = svg.querySelectorAll(".dot");
   const svgRect = svg.getBoundingClientRect();
 
-  tooltipsContainer.innerHTML = ""; // Clear previous tooltips
+  tooltipsContainer.innerHTML = ""; // reset tooltips
 
   dots.forEach((dot) => {
     const box = dot.getBBox();
@@ -212,26 +233,21 @@ function sectionFacilities() {
     const tooltip = document.createElement("div");
     tooltip.className = "tooltip-area";
 
-    // Lấy nội dung hiển thị
     tooltip.innerHTML = dot.dataset.text;
 
-    // ⚡ Lấy data-height-line, nếu không có thì mặc định 70
     const lineHeight = dot.dataset.heightLine
       ? parseInt(dot.dataset.heightLine, 10)
       : 70;
 
-    // Gán CSS variable cho tooltip
     tooltip.style.setProperty("--line-height", `${lineHeight}px`);
 
-    // Convert SVG point to screen coordinates
     const pt = svg.createSVGPoint();
     pt.x = centerX;
     pt.y = centerY;
     const screenPoint = pt.matrixTransform(svg.getScreenCTM());
 
-    // Position tooltip above the dot
     tooltip.style.left = `${screenPoint.x - svgRect.left}px`;
-    tooltip.style.top = `${screenPoint.y - svgRect.top - (lineHeight + 10)}px`; // cách dot 10px
+    tooltip.style.top = `${screenPoint.y - svgRect.top - (lineHeight + 10)}px`;
 
     tooltipsContainer.appendChild(tooltip);
   });
