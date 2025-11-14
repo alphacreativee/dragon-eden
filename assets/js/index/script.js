@@ -195,85 +195,41 @@ function sectionFacilities() {
   const section = document.querySelector(".facilities");
   if (!section) return;
 
-  const svg = section.querySelector("svg");
-  const tooltipsContainer = section.querySelector(".tooltips");
-  if (!svg || !tooltipsContainer) return;
+  const images = section.querySelectorAll(".image img");
+  const tabs = section.querySelectorAll(".facilities-tabs .tab-item");
+  const tabsWrapper = section.querySelector(".facilities-tabs");
 
-  // ===== TAB HOVER HANDLER =====
-  const facilitiesTabs = section.querySelectorAll(".facilities-tabs .tab-item");
+  // Show default "all" image
+  const defaultImg = section.querySelector('.image img[data-tab="all"]');
+  function showDefault() {
+    tabs.forEach((t) => t.classList.remove("active"));
+    const defaultTab = section.querySelector('.tab-item[data-tab="all"]');
+    if (defaultTab) defaultTab.classList.add("active");
 
-  function activateTab(tabData) {
-    // remove active from all tabs
-    facilitiesTabs.forEach((t) => t.classList.remove("active"));
-
-    // add active to matched tab
-    const matchedTab = section.querySelector(
-      `.tab-item[data-tab='${tabData}']`
-    );
-    if (matchedTab) matchedTab.classList.add("active");
-
-    // hide all svg areas
-    const areas = section.querySelectorAll("svg .area");
-    areas.forEach((area) => area.classList.add("hide"));
-
-    // show only matched area
-    if (tabData !== "all") {
-      const activeArea = section.querySelector(
-        `svg .area[data-tab='${tabData}']`
-      );
-      if (activeArea) activeArea.classList.remove("hide");
-    }
+    images.forEach((img) => {
+      img.classList.toggle("active", img.dataset.tab === "all");
+    });
   }
 
-  // Tab hover event
-  facilitiesTabs.forEach((tab) => {
-    tab.addEventListener("mouseenter", function () {
-      const tabData = tab.getAttribute("data-tab");
-      activateTab(tabData);
+  showDefault();
+
+  // Hover individual tab
+  tabs.forEach((tab) => {
+    const tabData = tab.dataset.tab;
+
+    tab.addEventListener("mouseenter", () => {
+      tabs.forEach((t) => t.classList.remove("active"));
+      tab.classList.add("active");
+
+      images.forEach((img) => {
+        img.classList.toggle("active", img.dataset.tab === tabData);
+      });
     });
   });
 
-  // ===== AREA HOVER HANDLER (NEW) =====
-  const svgAreas = svg.querySelectorAll(".area");
-
-  svgAreas.forEach((area) => {
-    area.addEventListener("mouseenter", function () {
-      const tabData = area.getAttribute("data-tab");
-      activateTab(tabData);
-    });
-  });
-
-  // ===== TOOLTIP CREATION =====
-  const dots = svg.querySelectorAll(".dot");
-  const svgRect = svg.getBoundingClientRect();
-
-  tooltipsContainer.innerHTML = ""; // reset tooltips
-
-  dots.forEach((dot) => {
-    const box = dot.getBBox();
-    const centerX = box.x + box.width / 2;
-    const centerY = box.y;
-
-    const tooltip = document.createElement("div");
-    tooltip.className = "tooltip-area";
-
-    tooltip.innerHTML = dot.dataset.text;
-
-    const lineHeight = dot.dataset.heightLine
-      ? parseInt(dot.dataset.heightLine, 10)
-      : 70;
-
-    tooltip.style.setProperty("--line-height", `${lineHeight}px`);
-
-    const pt = svg.createSVGPoint();
-    pt.x = centerX;
-    pt.y = centerY;
-    const screenPoint = pt.matrixTransform(svg.getScreenCTM());
-
-    tooltip.style.left = `${screenPoint.x - svgRect.left}px`;
-    tooltip.style.top = `${screenPoint.y - svgRect.top - (lineHeight + 10)}px`;
-
-    tooltipsContainer.appendChild(tooltip);
+  // When mouse leaves entire tabs area → Reset to ALL
+  tabsWrapper.addEventListener("mouseleave", () => {
+    showDefault();
   });
 }
 
