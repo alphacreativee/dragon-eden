@@ -84,6 +84,17 @@
   pointer-events: none;
   transition: all 0.8s ease;
 
+  &::after {
+    content: "";
+    width: 20px;
+    height: 20px;
+    clip-path: polygon(100% 0, 50% 50%, 100% 100%);
+    background-color: var(--color-third);
+    position: absolute;
+    right: 100%;
+    top: 30px;
+  }
+
   @media (max-width: 991px) {
     bottom: 100px;
     left: 120px;
