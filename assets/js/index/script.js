@@ -13,7 +13,7 @@ $ = jQuery;
 // end lenis
 
 function magicCursor() {
-  if ($(window).width < 1024) return;
+  if ($(window).width() < 1024) return;
 
   var circle = document.querySelector(".magic-cursor");
 
@@ -196,11 +196,11 @@ function sectionFacilities() {
   if (!section) return;
 
   const images = section.querySelectorAll(".image img");
-  const tabs = section.querySelectorAll(".facilities-tabs .tab-item");
-  const tabsWrapper = section.querySelector(".facilities-tabs");
+  const tabs = section.querySelectorAll(".facilities-tabs.desktop .tab-item");
+  const tabsWrapper = section.querySelector(".facilities-tabs.desktop");
+  const tooltips = section.querySelector(".tooltips");
 
   // Show default "all" image
-  const defaultImg = section.querySelector('.image img[data-tab="all"]');
   function showDefault() {
     tabs.forEach((t) => t.classList.remove("active"));
     const defaultTab = section.querySelector('.tab-item[data-tab="all"]');
@@ -209,28 +209,160 @@ function sectionFacilities() {
     images.forEach((img) => {
       img.classList.toggle("active", img.dataset.tab === "all");
     });
+
+    if (tooltips) tooltips.classList.remove("hide");
   }
 
   showDefault();
 
-  // Hover individual tab
-  tabs.forEach((tab) => {
-    const tabData = tab.dataset.tab;
+  /* ===========================
+        DESKTOP (>991px)
+  ============================ */
+  if (window.innerWidth > 991) {
+    tabs.forEach((tab) => {
+      const tabData = tab.dataset.tab;
 
-    tab.addEventListener("mouseenter", () => {
-      tabs.forEach((t) => t.classList.remove("active"));
-      tab.classList.add("active");
+      tab.addEventListener("mouseenter", () => {
+        tabs.forEach((t) => t.classList.remove("active"));
+        tab.classList.add("active");
+
+        images.forEach((img) => {
+          img.classList.toggle("active", img.dataset.tab === tabData);
+        });
+
+        if (tooltips) {
+          if (tabData !== "all") tooltips.classList.add("hide");
+          else tooltips.classList.remove("hide");
+        }
+      });
+    });
+
+    tabsWrapper.addEventListener("mouseleave", () => {
+      showDefault();
+    });
+  }
+
+  /* ===========================
+        MOBILE (<992px)
+  ============================ */
+  if (window.innerWidth < 992) {
+    const dropdownItems = $(".facilities-tabs.mobile .dropdown-custom-item");
+
+    dropdownItems.on("click", function () {
+      let thisData = $(this).find("span").data("tab");
+
+      console.log(thisData);
+
+      if (thisData === "all") {
+        images.forEach((img) => {
+          img.classList.toggle("active", img.dataset.tab === "all");
+        });
+
+        if (tooltips) tooltips.classList.remove("hide");
+        return;
+      }
 
       images.forEach((img) => {
-        img.classList.toggle("active", img.dataset.tab === tabData);
+        console.log(img);
+
+        img.classList.toggle("active", img.dataset.tab === thisData);
       });
+
+      if (tooltips) tooltips.classList.add("hide");
+    });
+  }
+}
+
+function updateImageWidth() {
+  const sectionWidth = window.innerWidth;
+  const sectionHeight = window.innerHeight - 69; // height = calc(100dvh - 69px)
+  const aspectRatio = 2160 / 1111; // width / height
+
+  if (sectionWidth > 991) return;
+
+  const images = document.querySelectorAll(".facilities .image");
+
+  images.forEach((img) => {
+    const newWidth = sectionHeight * aspectRatio;
+    img.style.height = sectionHeight + "px";
+    img.style.width = newWidth + "px";
+  });
+}
+
+function customDropdown() {
+  const dropdowns = document.querySelectorAll(".dropdown-custom");
+
+  dropdowns.forEach((dropdown) => {
+    const btnDropdown = dropdown.querySelector(".dropdown-custom-btn");
+    const dropdownMenu = dropdown.querySelector(".dropdown-custom-menu");
+    const dropdownItems = dropdown.querySelectorAll(".dropdown-custom-item");
+    const valueSelect = dropdown.querySelector(".value-select");
+
+    // Toggle dropdown on button click
+    btnDropdown.addEventListener("click", function (e) {
+      e.stopPropagation();
+      closeAllDropdowns(dropdown);
+      dropdownMenu.classList.toggle("dropdown--active");
+      btnDropdown.classList.toggle("--active");
+    });
+
+    // Close dropdown when clicking outside
+    document.addEventListener("click", function () {
+      closeAllDropdowns();
+    });
+
+    // Handle item selection
+    dropdownItems.forEach((item) => {
+      item.addEventListener("click", function (e) {
+        e.stopPropagation();
+
+        // Store current values from the button
+        const currentImgEl = valueSelect.querySelector("img");
+        const currentImg = currentImgEl ? currentImgEl.src : "";
+        const currentText = valueSelect.querySelector("span").textContent;
+        const currentHtml = valueSelect.innerHTML;
+
+        // Store clicked item values
+        const clickedHtml = item.innerHTML;
+
+        // Update the button with clicked item values
+        valueSelect.innerHTML = clickedHtml;
+
+        const isSelectTime = currentText.trim() === "Time";
+
+        // Update the clicked item with the previous button values
+        if (!isSelectTime) {
+          if (currentImg) {
+            item.innerHTML = `<img src="${currentImg}" alt="" /><span>${currentText}</span>`;
+          } else {
+            item.innerHTML = currentHtml;
+          }
+        }
+
+        closeAllDropdowns();
+      });
+    });
+
+    // Close dropdown on scroll
+    window.addEventListener("scroll", function () {
+      if (dropdownMenu.closest(".header-lang")) {
+        dropdownMenu.classList.remove("dropdown--active");
+        btnDropdown.classList.remove("--active");
+      }
     });
   });
 
-  // When mouse leaves entire tabs area → Reset to ALL
-  tabsWrapper.addEventListener("mouseleave", () => {
-    showDefault();
-  });
+  function closeAllDropdowns(exception) {
+    dropdowns.forEach((dropdown) => {
+      const menu = dropdown.querySelector(".dropdown-custom-menu");
+      const btn = dropdown.querySelector(".dropdown-custom-btn");
+
+      if (!exception || dropdown !== exception) {
+        menu.classList.remove("dropdown--active");
+        btn.classList.remove("--active");
+      }
+    });
+  }
 }
 
 const init = () => {
@@ -241,6 +373,8 @@ const init = () => {
   popupIntruction();
   sectionGallery();
   sectionFacilities();
+  updateImageWidth();
+  customDropdown();
 };
 preloadImages("img").then(() => {
   // Once images are preloaded, remove the 'loading' indicator/class from the body

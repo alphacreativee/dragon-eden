@@ -3,6 +3,10 @@
   min-height: 100dvh;
   margin-bottom: 70px;
 
+  &.section-model {
+    min-height: calc(100dvh - 70px);
+  }
+
   &::after {
     content: "";
     width: 100%;
