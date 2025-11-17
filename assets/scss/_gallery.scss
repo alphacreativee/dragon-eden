@@ -89,12 +89,24 @@
     gap: 24px;
     padding: 0 40px 40px;
 
+    @media (max-width: 991px) {
+      padding: 0 24px 40px;
+    }
+
     .gallery-item {
       border-radius: 12px;
       overflow: hidden;
       aspect-ratio: 437 / 236;
       position: relative;
       width: calc(calc(100% - 48px) / 3);
+
+      @media (max-width: 991px) {
+        width: calc(calc(100% - 24px) / 2);
+      }
+
+      @media (max-width: 767px) {
+        width: 100%;
+      }
 
       &::after {
         content: "";

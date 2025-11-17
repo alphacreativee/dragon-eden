@@ -16,15 +16,44 @@
       display: grid;
       grid-template-columns: repeat(8, 1fr);
 
+      @media (max-width: 991px) {
+        grid-template-columns: repeat(7, 1fr);
+      }
+
       li,
       a {
         display: flex;
         align-items: center;
         justify-content: center;
+
+        @media (max-width: 991px) {
+          flex-direction: column;
+          text-align: center;
+        }
       }
 
       a {
         gap: 16px;
+
+        @media (max-width: 991px) {
+          gap: 8px;
+        }
+
+        span {
+          @media (max-width: 991px) {
+            display: none;
+          }
+        }
+
+        &.active {
+          width: 107px;
+
+          span {
+            @media (max-width: 991px) {
+              display: block;
+            }
+          }
+        }
       }
 
       li {
@@ -39,6 +68,10 @@
         line-height: 1.2;
         letter-spacing: 0.04px;
         text-transform: uppercase;
+
+        .icon {
+          min-width: max-content;
+        }
 
         a {
           width: 100%;
@@ -79,6 +112,10 @@
 
       .header-logo {
         background-color: var(--color-white);
+
+        @media (max-width: 991px) {
+          display: none;
+        }
 
         a {
           display: flex;

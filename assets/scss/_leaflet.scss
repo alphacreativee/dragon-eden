@@ -23,6 +23,10 @@
     margin: 0 auto;
     padding: 48px 0 118px;
 
+    @media (max-width: 991px) {
+      padding: 48px 24px 118px;
+    }
+
     .wp-block-image {
       width: 100%;
       border: 2px solid var(--color-white);
