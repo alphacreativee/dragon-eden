@@ -141,6 +141,18 @@
           transform: translateX(-50%);
           animation: lineGrowShrink 2.5s ease-in-out infinite;
         }
+
+        &::before {
+          content: "";
+          width: 10px;
+          height: 10px;
+          border-radius: 50%;
+          background-color: var(--color-white);
+          bottom: calc(var(--line-height) * -1);
+          position: absolute;
+          left: 50%;
+          transform: translateX(-50%);
+        }
       }
     }
   }
