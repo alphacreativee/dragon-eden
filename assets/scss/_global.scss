@@ -107,6 +107,32 @@
     align-items: center;
     justify-content: center;
     gap: 25px;
+
+    &.mobile {
+      display: none;
+
+      @media (max-width: 991px) {
+        display: flex;
+      }
+    }
+
+    @media (max-width: 991px) {
+      display: none;
+    }
+  }
+
+  .desc {
+    &.mobile {
+      display: none;
+
+      @media (max-width: 991px) {
+        display: flex;
+      }
+    }
+
+    @media (max-width: 991px) {
+      display: none;
+    }
   }
 
   .icon-close {
@@ -224,7 +250,7 @@
   align-items: center;
   justify-content: center;
   gap: 10px;
-  background-color: var(--color-white);
+  background: linear-gradient(#003d38 0, #11be9a 100%);
   border-radius: 50px;
   min-height: 30px;
   position: relative;
@@ -248,7 +274,7 @@
     align-items: center;
     gap: 10px;
     span {
-      color: var(--color-black);
+      color: var(--color-white);
       font-size: 12px;
       line-height: 20px;
       font-weight: 400;
@@ -271,5 +297,11 @@
     font-size: 12px;
     line-height: 20px;
     font-weight: 400;
+  }
+}
+
+.glightbox-container .ginner-container {
+  @media (max-width: 991px) {
+    width: calc(100% - 48px) !important;
   }
 }

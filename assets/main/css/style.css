@@ -193,6 +193,32 @@ body {
   justify-content: center;
   gap: 25px;
 }
+.intruction .action.mobile {
+  display: none;
+}
+@media (max-width: 991px) {
+  .intruction .action.mobile {
+    display: flex;
+  }
+}
+@media (max-width: 991px) {
+  .intruction .action {
+    display: none;
+  }
+}
+.intruction .desc.mobile {
+  display: none;
+}
+@media (max-width: 991px) {
+  .intruction .desc.mobile {
+    display: flex;
+  }
+}
+@media (max-width: 991px) {
+  .intruction .desc {
+    display: none;
+  }
+}
 .intruction .icon-close {
   width: 32px;
   height: 32px;
@@ -296,7 +322,7 @@ body {
   align-items: center;
   justify-content: center;
   gap: 10px;
-  background-color: var(--color-white);
+  background: linear-gradient(#003d38 0, #11be9a 100%);
   border-radius: 50px;
   min-height: 30px;
   position: relative;
@@ -317,7 +343,7 @@ body {
   gap: 10px;
 }
 .dropdown-custom-btn .value-select span {
-  color: var(--color-black);
+  color: var(--color-white);
   font-size: 12px;
   line-height: 20px;
   font-weight: 400;
@@ -340,6 +366,12 @@ body {
   font-size: 12px;
   line-height: 20px;
   font-weight: 400;
+}
+
+@media (max-width: 991px) {
+  .glightbox-container .ginner-container {
+    width: calc(100% - 48px) !important;
+  }
 }
 
 #header {
