@@ -722,6 +722,11 @@ body {
 .gallery .tab-content {
   padding-top: 104px;
 }
+@media (max-width: 991px) {
+  .gallery .tab-content {
+    padding-top: 88px;
+  }
+}
 .gallery .gallery-list {
   display: flex;
   flex-wrap: wrap;
@@ -999,6 +1004,9 @@ body {
   text-align: center;
   background: linear-gradient(#003d38 0, #11be9a 100%);
 }
+.facilities-wrapper .image .tooltip-area.hide {
+  opacity: 0;
+}
 .facilities-wrapper .image .tooltip-area::after {
   content: "";
   width: 1px;
@@ -1020,9 +1028,6 @@ body {
   position: absolute;
   left: 50%;
   transform: translateX(-50%);
-}
-.facilities-wrapper .tooltips.hide {
-  opacity: 0;
 }
 
 @keyframes lineGrowShrink {

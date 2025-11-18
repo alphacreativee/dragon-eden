@@ -85,6 +85,10 @@
 
   .tab-content {
     padding-top: 104px;
+
+    @media (max-width: 991px) {
+      padding-top: 88px;
+    }
   }
 
   .gallery-list {

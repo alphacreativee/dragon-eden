@@ -199,8 +199,9 @@ function sectionFacilities() {
   const tabs = section.querySelectorAll(".facilities-tabs.desktop .tab-item");
   const tabsWrapper = section.querySelector(".facilities-tabs.desktop");
   const tooltips = section.querySelector(".tooltips");
+  const tooltipAreas = section.querySelectorAll(".tooltip-area");
 
-  // Show default "all" image
+  // Show default "all" image + show all tooltip-area
   function showDefault() {
     tabs.forEach((t) => t.classList.remove("active"));
     const defaultTab = section.querySelector('.tab-item[data-tab="all"]');
@@ -211,12 +212,15 @@ function sectionFacilities() {
     });
 
     if (tooltips) tooltips.classList.remove("hide");
+
+    // Show all tooltip-areas
+    tooltipAreas.forEach((t) => t.classList.remove("hide"));
   }
 
   showDefault();
 
   /* ===========================
-        DESKTOP (>991px)
+          DESKTOP (>991px)
   ============================ */
   if (window.innerWidth > 991) {
     tabs.forEach((tab) => {
@@ -226,10 +230,24 @@ function sectionFacilities() {
         tabs.forEach((t) => t.classList.remove("active"));
         tab.classList.add("active");
 
+        // Toggle images
         images.forEach((img) => {
           img.classList.toggle("active", img.dataset.tab === tabData);
         });
 
+        // Tooltip-area control
+        if (tooltipAreas.length) {
+          if (tabData === "all") {
+            // Show everything
+            tooltipAreas.forEach((t) => t.classList.remove("hide"));
+          } else {
+            tooltipAreas.forEach((t) => {
+              t.classList.toggle("hide", t.dataset.tab !== tabData);
+            });
+          }
+        }
+
+        // Hide main tooltips container khi không phải all
         if (tooltips) {
           if (tabData !== "all") tooltips.classList.add("hide");
           else tooltips.classList.remove("hide");
@@ -237,13 +255,14 @@ function sectionFacilities() {
       });
     });
 
+    // Reset khi rời khỏi tabs
     tabsWrapper.addEventListener("mouseleave", () => {
       showDefault();
     });
   }
 
   /* ===========================
-        MOBILE (<992px)
+          MOBILE (<992px)
   ============================ */
   if (window.innerWidth < 992) {
     const dropdownItems = $(".facilities-tabs.mobile .dropdown-custom-item");
@@ -251,21 +270,27 @@ function sectionFacilities() {
     dropdownItems.on("click", function () {
       let thisData = $(this).find("span").data("tab");
 
-      console.log(thisData);
-
       if (thisData === "all") {
         images.forEach((img) => {
           img.classList.toggle("active", img.dataset.tab === "all");
         });
 
         if (tooltips) tooltips.classList.remove("hide");
+
+        // Show all tooltip-areas
+        tooltipAreas.forEach((t) => t.classList.remove("hide"));
+
         return;
       }
 
+      // Toggle images
       images.forEach((img) => {
-        console.log(img);
-
         img.classList.toggle("active", img.dataset.tab === thisData);
+      });
+
+      // Tooltip-area control
+      tooltipAreas.forEach((t) => {
+        t.classList.toggle("hide", t.dataset.tab !== thisData);
       });
 
       if (tooltips) tooltips.classList.add("hide");

@@ -170,6 +170,10 @@
         text-align: center;
         background: linear-gradient(#003d38 0, #11be9a 100%);
 
+        &.hide {
+          opacity: 0;
+        }
+
         &::after {
           content: "";
           width: 1px;
@@ -193,13 +197,6 @@
           left: 50%;
           transform: translateX(-50%);
         }
-      }
-    }
-
-    .tooltips {
-      // transition: all 0.3s ease;
-      &.hide {
-        opacity: 0;
       }
     }
   }
