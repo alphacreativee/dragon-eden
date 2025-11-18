@@ -1075,7 +1075,7 @@ body {
 }
 @media (max-width: 991px) {
   .leaflet-wrapper {
-    padding: 48px 24px 118px;
+    padding: 24px 24px 118px;
   }
 }
 .leaflet-wrapper .wp-block-image {
