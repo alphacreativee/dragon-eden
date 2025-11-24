@@ -156,10 +156,10 @@ body {
   height: 200px;
   background-color: var(--color-third);
   color: var(--color-white);
-  padding: 25px 10px;
+  padding: 25px 15px;
   display: flex;
   flex-direction: column;
-  justify-content: space-between;
+  justify-content: center;
   align-items: center;
   text-align: center;
   font-size: 12px;
@@ -169,6 +169,9 @@ body {
   opacity: 0;
   pointer-events: none;
   transition: all 0.8s ease;
+}
+.intruction.popup-intruction {
+  justify-content: space-between;
 }
 .intruction::after {
   content: "";
@@ -216,12 +219,15 @@ body {
     display: none;
   }
 }
+.intruction .desc p:not(:last-child) {
+  margin-bottom: 8px;
+}
 .intruction .desc.mobile {
   display: none;
 }
 @media (max-width: 991px) {
   .intruction .desc.mobile {
-    display: flex;
+    display: block;
   }
 }
 @media (max-width: 991px) {
@@ -382,6 +388,27 @@ body {
   .glightbox-container .ginner-container {
     width: calc(100% - 48px) !important;
   }
+}
+
+.glightbox-container .goverlay {
+  background-image: url("../../images/bg.jpg");
+  background-size: cover;
+  background-position: bottom center;
+  background-color: unset;
+}
+
+.glightbox-clean .gclose,
+.glightbox-clean .gnext,
+.glightbox-clean .gprev {
+  background-color: var(--color-third);
+  color: var(--color-white);
+  opacity: 1;
+  transition: all 0.4s ease;
+}
+.glightbox-clean .gclose:hover,
+.glightbox-clean .gnext:hover,
+.glightbox-clean .gprev:hover {
+  background-color: var(--color-secondary);
 }
 
 #header {
@@ -1051,14 +1078,35 @@ body {
     bottom: 0;
   }
 }
+.location {
+  height: calc(100dvh - 70px);
+  overflow: hidden;
+}
 .location-wrapper {
   height: calc(100dvh - 69px);
+  position: relative;
 }
-.location-wrapper img {
+@media (max-width: 991px) {
+  .location-wrapper {
+    overflow-x: scroll;
+    overflow-y: hidden;
+    height: calc(100dvh - 69px);
+    width: auto;
+    min-width: 100%;
+  }
+}
+.location-wrapper .image {
+  position: relative;
+}
+.location-wrapper img,
+.location-wrapper video {
   width: 100%;
   height: 100%;
   object-fit: cover;
   object-position: bottom right;
+  position: absolute;
+  top: 0;
+  left: 0;
 }
 
 .leaflet {

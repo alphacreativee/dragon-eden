@@ -67,11 +67,11 @@
   height: 200px;
   background-color: var(--color-third);
   color: var(--color-white);
-  padding: 25px 10px;
+  padding: 25px 15px;
 
   display: flex;
   flex-direction: column;
-  justify-content: space-between;
+  justify-content: center;
   align-items: center;
   text-align: center;
 
@@ -83,6 +83,10 @@
   opacity: 0;
   pointer-events: none;
   transition: all 0.8s ease;
+
+  &.popup-intruction {
+    justify-content: space-between;
+  }
 
   &::after {
     content: "";
@@ -133,11 +137,17 @@
   }
 
   .desc {
+    p {
+      &:not(:last-child) {
+        margin-bottom: 8px;
+      }
+    }
+
     &.mobile {
       display: none;
 
       @media (max-width: 991px) {
-        display: flex;
+        display: block;
       }
     }
 
@@ -314,5 +324,25 @@
 .glightbox-container .ginner-container {
   @media (max-width: 991px) {
     width: calc(100% - 48px) !important;
+  }
+}
+
+.glightbox-container .goverlay {
+  background-image: url("../../images/bg.jpg");
+  background-size: cover;
+  background-position: bottom center;
+  background-color: unset;
+}
+
+.glightbox-clean .gclose,
+.glightbox-clean .gnext,
+.glightbox-clean .gprev {
+  background-color: var(--color-third);
+  color: var(--color-white);
+  opacity: 1;
+  transition: all 0.4s ease;
+
+  &:hover {
+    background-color: var(--color-secondary);
   }
 }

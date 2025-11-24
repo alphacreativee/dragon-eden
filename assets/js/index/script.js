@@ -139,9 +139,14 @@ function popupIntruction() {
   const btnCloseIntruction = $(".intruction .icon-close");
   const popupIntruction = $(".intruction");
 
+  let timingPopupOpen = 1000;
+  if (popupIntruction.hasClass("popup-intruction")) {
+    timingPopupOpen = 3000;
+  }
+
   setTimeout(() => {
     popupIntruction.addClass("open");
-  }, 3000);
+  }, timingPopupOpen);
 
   btnCloseIntruction.on("click", function () {
     popupIntruction.removeClass("open");
@@ -303,9 +308,11 @@ function updateImageWidth() {
   const sectionHeight = window.innerHeight - 69; // height = calc(100dvh - 69px)
   const aspectRatio = 2160 / 1111; // width / height
 
-  if (sectionWidth > 991) return;
+  if (sectionWidth > 992) return;
 
-  const images = document.querySelectorAll(".facilities .image");
+  const images = document.querySelectorAll(
+    ".facilities .image, .location-wrapper .image"
+  );
 
   images.forEach((img) => {
     const newWidth = sectionHeight * aspectRatio;
