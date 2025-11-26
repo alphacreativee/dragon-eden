@@ -391,7 +391,7 @@ body {
 }
 
 .glightbox-container .goverlay {
-  background-image: url("../../images/bg.jpg");
+  background-image: url("../../images/bg-gallery.jpg");
   background-size: cover;
   background-position: bottom center;
   background-color: unset;
@@ -688,7 +688,7 @@ body {
   z-index: 1;
   top: 0;
   left: 0;
-  background: url("../../images/bg.jpg");
+  background: url("../../images/bg-gallery.jpg");
   background-size: cover;
   background-repeat: no-repeat;
   background-position: center;
