@@ -139,18 +139,32 @@ function popupIntruction() {
 
   const btnClose = popup.find(".icon-close");
   const title = popup.find(".title");
-  const action = popup.find(".action");
-  const desc = popup.find(".desc");
+  const action1 = popup.find(".action").not(".action-2");
+  const action2 = popup.find(".action-2");
+  const desc1 = popup.find(".desc").not(".desc-2");
+  const desc2 = popup.find(".desc-2");
 
   const isInstruction = popup.hasClass("popup-intruction");
 
+  // SplitText
   let splitTitle = null;
   if (title.length) splitTitle = new SplitText(title, { type: "words, chars" });
-  let splitDesc = new SplitText(desc, { type: "words, chars" });
+
+  let splitDesc1 = [];
+  desc1.each(function () {
+    splitDesc1.push(new SplitText($(this), { type: "words, chars" }));
+  });
+
+  let splitDesc2 = [];
+  desc2.each(function () {
+    splitDesc2.push(new SplitText($(this), { type: "words, chars" }));
+  });
 
   if (splitTitle) gsap.set(splitTitle.chars, { opacity: 0 });
-  gsap.set(splitDesc.chars, { opacity: 0 });
-  gsap.set(action, { opacity: 0 });
+  splitDesc1.forEach((s) => gsap.set(s.chars, { opacity: 0 }));
+  splitDesc2.forEach((s) => gsap.set(s.chars, { opacity: 0 }));
+  gsap.set(action1, { opacity: 0 });
+  gsap.set(action2, { opacity: 0 });
 
   let delayBefore = isInstruction ? 3300 : 1800;
 
@@ -159,8 +173,9 @@ function popupIntruction() {
   }, delayBefore - 800);
 
   setTimeout(() => {
-    let tl = gsap.timeline();
+    const tl = gsap.timeline();
 
+    // Title
     if (splitTitle) {
       tl.to(splitTitle.chars, {
         opacity: 1,
@@ -170,19 +185,42 @@ function popupIntruction() {
       });
     }
 
-    if (action.length) {
-      tl.to(action, {
+    // Action 1
+    if (action1.length) {
+      tl.to(action1, {
         opacity: 1,
         duration: 0.6,
         ease: "power2.out"
       });
     }
 
-    tl.to(splitDesc.chars, {
-      opacity: 1,
-      duration: 2,
-      stagger: 2 / splitDesc.chars.length,
-      ease: "power1.out"
+    // Desc 1
+    splitDesc1.forEach((s) => {
+      tl.to(s.chars, {
+        opacity: 1,
+        duration: 2,
+        stagger: 2 / s.chars.length,
+        ease: "power1.out"
+      });
+    });
+
+    // Action 2
+    if (action2.length) {
+      tl.to(action2, {
+        opacity: 1,
+        duration: 0.6,
+        ease: "power2.out"
+      });
+    }
+
+    // Desc 2
+    splitDesc2.forEach((s) => {
+      tl.to(s.chars, {
+        opacity: 1,
+        duration: 2,
+        stagger: 2 / s.chars.length,
+        ease: "power1.out"
+      });
     });
   }, delayBefore);
 

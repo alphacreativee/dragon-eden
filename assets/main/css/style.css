@@ -153,7 +153,7 @@ body {
   left: 210px;
   bottom: 80px;
   width: 260px;
-  height: 200px;
+  min-height: 200px;
   background-color: var(--color-third);
   color: var(--color-white);
   padding: 25px 15px;
@@ -174,7 +174,7 @@ body {
 @media (max-width: 991px) {
   .intruction {
     width: 250px;
-    height: 170px;
+    min-height: 170px;
   }
 }
 .intruction.popup-intruction {
@@ -192,7 +192,8 @@ body {
 }
 @media (max-width: 991px) {
   .intruction::after {
-    top: 100px;
+    top: unset;
+    bottom: 60px;
   }
 }
 @media (max-width: 991px) {
@@ -217,6 +218,7 @@ body {
   align-items: center;
   justify-content: center;
   gap: 25px;
+  margin-top: 8px;
 }
 .intruction .desc p:not(:last-child) {
   margin-bottom: 8px;
