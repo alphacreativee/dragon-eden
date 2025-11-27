@@ -134,22 +134,60 @@ function loading() {
 }
 
 function popupIntruction() {
-  if ($(".intruction").length < 1) return;
+  const popup = $(".intruction");
+  if (!popup.length) return;
 
-  const btnCloseIntruction = $(".intruction .icon-close");
-  const popupIntruction = $(".intruction");
+  const btnClose = popup.find(".icon-close");
+  const title = popup.find(".title");
+  const action = popup.find(".action");
+  const desc = popup.find(".desc");
 
-  let timingPopupOpen = 1000;
-  if (popupIntruction.hasClass("popup-intruction")) {
-    timingPopupOpen = 3000;
-  }
+  const isInstruction = popup.hasClass("popup-intruction");
+
+  let splitTitle = null;
+  if (title.length) splitTitle = new SplitText(title, { type: "words, chars" });
+  let splitDesc = new SplitText(desc, { type: "words, chars" });
+
+  if (splitTitle) gsap.set(splitTitle.chars, { opacity: 0 });
+  gsap.set(splitDesc.chars, { opacity: 0 });
+  gsap.set(action, { opacity: 0 });
+
+  let delayBefore = isInstruction ? 3300 : 1800;
 
   setTimeout(() => {
-    popupIntruction.addClass("open");
-  }, timingPopupOpen);
+    popup.addClass("open");
+  }, delayBefore - 800);
 
-  btnCloseIntruction.on("click", function () {
-    popupIntruction.removeClass("open");
+  setTimeout(() => {
+    let tl = gsap.timeline();
+
+    if (splitTitle) {
+      tl.to(splitTitle.chars, {
+        opacity: 1,
+        duration: 1,
+        stagger: 1 / splitTitle.chars.length,
+        ease: "power2.out"
+      });
+    }
+
+    if (action.length) {
+      tl.to(action, {
+        opacity: 1,
+        duration: 0.6,
+        ease: "power2.out"
+      });
+    }
+
+    tl.to(splitDesc.chars, {
+      opacity: 1,
+      duration: 2,
+      stagger: 2 / splitDesc.chars.length,
+      ease: "power1.out"
+    });
+  }, delayBefore);
+
+  btnClose.on("click", function () {
+    popup.removeClass("open");
   });
 }
 

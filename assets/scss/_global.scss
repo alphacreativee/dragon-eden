@@ -13,7 +13,7 @@
       width: 84px;
       height: 96px;
       left: 25px;
-      bottom: 200px;
+      bottom: 90px;
     }
 
     img {
@@ -34,7 +34,7 @@
 
     @media (max-width: 991px) {
       width: 25px;
-      bottom: 280px;
+      bottom: 170px;
     }
 
     img {
@@ -74,6 +74,7 @@
   justify-content: center;
   align-items: center;
   text-align: center;
+  gap: 10px;
 
   font-size: 12px;
   line-height: 1.2;
@@ -82,7 +83,12 @@
   transform: translateX(10px);
   opacity: 0;
   pointer-events: none;
-  transition: all 0.8s ease;
+  transition: all 0.7s ease;
+
+  @media (max-width: 991px) {
+    width: 250px;
+    height: 170px;
+  }
 
   &.popup-intruction {
     justify-content: space-between;
@@ -97,6 +103,10 @@
     position: absolute;
     right: 100%;
     top: 30px;
+
+    @media (max-width: 991px) {
+      top: 100px;
+    }
   }
 
   @media (max-width: 991px) {
@@ -122,18 +132,6 @@
     align-items: center;
     justify-content: center;
     gap: 25px;
-
-    &.mobile {
-      display: none;
-
-      @media (max-width: 991px) {
-        display: flex;
-      }
-    }
-
-    @media (max-width: 991px) {
-      display: none;
-    }
   }
 
   .desc {
@@ -141,18 +139,10 @@
       &:not(:last-child) {
         margin-bottom: 8px;
       }
-    }
 
-    &.mobile {
-      display: none;
-
-      @media (max-width: 991px) {
-        display: block;
+      & > div {
+        line-height: 1.2;
       }
-    }
-
-    @media (max-width: 991px) {
-      display: none;
     }
   }
 
@@ -328,7 +318,7 @@
 }
 
 .glightbox-container .goverlay {
-  background-image: url("../../images/bg-gallery.jpg");
+  background-image: url("../../images/bg.jpg");
   background-size: cover;
   background-position: bottom center;
   background-color: unset;
@@ -345,4 +335,8 @@
   &:hover {
     background-color: var(--color-secondary);
   }
+}
+
+.glightbox-clean .gslide-media {
+  box-shadow: none;
 }

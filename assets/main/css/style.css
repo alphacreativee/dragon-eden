@@ -107,7 +107,7 @@ body {
     width: 84px;
     height: 96px;
     left: 25px;
-    bottom: 200px;
+    bottom: 90px;
   }
 }
 .mascot .dragon img {
@@ -127,7 +127,7 @@ body {
 @media (max-width: 991px) {
   .mascot .robot {
     width: 25px;
-    bottom: 280px;
+    bottom: 170px;
   }
 }
 .mascot .robot img {
@@ -162,13 +162,20 @@ body {
   justify-content: center;
   align-items: center;
   text-align: center;
+  gap: 10px;
   font-size: 12px;
   line-height: 1.2;
   letter-spacing: 0.04px;
   transform: translateX(10px);
   opacity: 0;
   pointer-events: none;
-  transition: all 0.8s ease;
+  transition: all 0.7s ease;
+}
+@media (max-width: 991px) {
+  .intruction {
+    width: 250px;
+    height: 170px;
+  }
 }
 .intruction.popup-intruction {
   justify-content: space-between;
@@ -182,6 +189,11 @@ body {
   position: absolute;
   right: 100%;
   top: 30px;
+}
+@media (max-width: 991px) {
+  .intruction::after {
+    top: 100px;
+  }
 }
 @media (max-width: 991px) {
   .intruction {
@@ -206,34 +218,11 @@ body {
   justify-content: center;
   gap: 25px;
 }
-.intruction .action.mobile {
-  display: none;
-}
-@media (max-width: 991px) {
-  .intruction .action.mobile {
-    display: flex;
-  }
-}
-@media (max-width: 991px) {
-  .intruction .action {
-    display: none;
-  }
-}
 .intruction .desc p:not(:last-child) {
   margin-bottom: 8px;
 }
-.intruction .desc.mobile {
-  display: none;
-}
-@media (max-width: 991px) {
-  .intruction .desc.mobile {
-    display: block;
-  }
-}
-@media (max-width: 991px) {
-  .intruction .desc {
-    display: none;
-  }
+.intruction .desc p > div {
+  line-height: 1.2;
 }
 .intruction .icon-close {
   width: 32px;
@@ -391,7 +380,7 @@ body {
 }
 
 .glightbox-container .goverlay {
-  background-image: url("../../images/bg-gallery.jpg");
+  background-image: url("../../images/bg.jpg");
   background-size: cover;
   background-position: bottom center;
   background-color: unset;
@@ -409,6 +398,10 @@ body {
 .glightbox-clean .gnext:hover,
 .glightbox-clean .gprev:hover {
   background-color: var(--color-secondary);
+}
+
+.glightbox-clean .gslide-media {
+  box-shadow: none;
 }
 
 #header {
@@ -520,6 +513,22 @@ body {
   width: 94px;
   height: auto;
   object-fit: contain;
+}
+
+.logo-header-mobile {
+  position: fixed;
+  top: 20px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 100;
+  width: 100px;
+  height: auto;
+  display: none;
+}
+@media (max-width: 991px) {
+  .logo-header-mobile {
+    display: block;
+  }
 }
 
 .overview {
@@ -688,7 +697,7 @@ body {
   z-index: 1;
   top: 0;
   left: 0;
-  background: url("../../images/bg-gallery.jpg");
+  background: url("../../images/bg.jpg");
   background-size: cover;
   background-repeat: no-repeat;
   background-position: center;
@@ -1097,6 +1106,8 @@ body {
 }
 .location-wrapper .image {
   position: relative;
+  width: 100%;
+  height: 100%;
 }
 .location-wrapper img,
 .location-wrapper video {
