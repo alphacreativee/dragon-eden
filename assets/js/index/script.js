@@ -473,6 +473,22 @@ function customDropdown() {
   }
 }
 
+function sectionModel() {
+  if ($(".section-model").length < 1) return;
+
+  document.querySelectorAll(".dropdown-custom-item span").forEach((item) => {
+    item.addEventListener("click", function () {
+      const tabId = this.dataset.tab;
+      const trigger = document.querySelector(`[data-bs-target="#${tabId}"]`);
+
+      if (trigger) {
+        const tab = new bootstrap.Tab(trigger);
+        tab.show();
+      }
+    });
+  });
+}
+
 const init = () => {
   gsap.registerPlugin(ScrollTrigger);
   magicCursor();
@@ -483,6 +499,7 @@ const init = () => {
   sectionFacilities();
   updateImageWidth();
   customDropdown();
+  sectionModel();
 };
 preloadImages("img").then(() => {
   // Once images are preloaded, remove the 'loading' indicator/class from the body

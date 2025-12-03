@@ -687,6 +687,13 @@ body {
   min-height: 100dvh;
   margin-bottom: 70px;
 }
+.gallery .dropdown-custom {
+  position: absolute;
+  z-index: 3;
+  top: 24px;
+  left: 24px;
+  width: calc(100% - 48px);
+}
 .gallery.section-model {
   min-height: calc(100dvh - 70px);
 }
