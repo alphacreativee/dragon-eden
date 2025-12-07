@@ -476,9 +476,12 @@ function customDropdown() {
 function sectionModel() {
   if ($(".section-model").length < 1) return;
 
-  document.querySelectorAll(".dropdown-custom-item span").forEach((item) => {
+  document.querySelectorAll(".dropdown-custom-item").forEach((item) => {
     item.addEventListener("click", function () {
-      const tabId = this.dataset.tab;
+      const span = this.querySelector("span");
+      if (!span) return;
+
+      const tabId = span.dataset.tab;
       const trigger = document.querySelector(`[data-bs-target="#${tabId}"]`);
 
       if (trigger) {
