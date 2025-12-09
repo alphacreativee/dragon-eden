@@ -945,6 +945,9 @@ body {
   width: max-content;
   transition: all 0.4s ease;
   text-transform: uppercase;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 @media (max-width: 991px) {
   .facilities-tabs .tab-item {
@@ -983,6 +986,11 @@ body {
     overflow-y: hidden;
     overflow-x: scroll;
   }
+}
+.facilities-wrapper .item-360 {
+  width: 100%;
+  height: calc(100dvh - 69px);
+  overflow: hidden;
 }
 .facilities-wrapper .image {
   height: calc(100dvh - 69px);

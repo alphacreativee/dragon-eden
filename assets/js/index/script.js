@@ -277,28 +277,60 @@ function sectionFacilities() {
   if (!section) return;
 
   const images = section.querySelectorAll(".image img");
+  const imageBlocks = section.querySelectorAll(".facilities-wrapper .image");
+  const items360 = section.querySelectorAll(".facilities-wrapper .item-360");
   const tabs = section.querySelectorAll(".facilities-tabs.desktop .tab-item");
-  const tabsWrapper = section.querySelector(".facilities-tabs.desktop");
   const tooltips = section.querySelector(".tooltips");
   const tooltipAreas = section.querySelectorAll(".tooltip-area");
 
-  // Show default "all" image + show all tooltip-area
+  /* ===========================
+      FUNCTION: SHOW DEFAULT
+  ============================ */
   function showDefault() {
     tabs.forEach((t) => t.classList.remove("active"));
     const defaultTab = section.querySelector('.tab-item[data-tab="all"]');
     if (defaultTab) defaultTab.classList.add("active");
 
+    // show image all
     images.forEach((img) => {
       img.classList.toggle("active", img.dataset.tab === "all");
     });
 
+    // show tooltip
     if (tooltips) tooltips.classList.remove("hide");
-
-    // Show all tooltip-areas
     tooltipAreas.forEach((t) => t.classList.remove("hide"));
+
+    // hide all 360 (wrapper-360)
+    items360.forEach((item) => item.classList.add("d-none"));
+    // show image block
+    imageBlocks.forEach((block) => block.classList.remove("d-none"));
   }
 
   showDefault();
+
+  /* ===========================
+      FUNCTION: SHOW 360 (CLICK)
+  ============================ */
+  function show360(tabData) {
+    const item360 = section.querySelector(
+      `.facilities-wrapper .item-360[data-tab="${tabData}"]`
+    );
+
+    if (!item360) return false;
+
+    // hide all 360 then show the correct one
+    items360.forEach((el) => el.classList.add("d-none"));
+    item360.classList.remove("d-none");
+
+    // hide all image blocks
+    imageBlocks.forEach((block) => block.classList.add("d-none"));
+
+    // hide tooltip and tooltip-areas
+    if (tooltips) tooltips.classList.add("hide");
+    tooltipAreas.forEach((t) => t.classList.add("hide"));
+
+    return true;
+  }
 
   /* ===========================
           DESKTOP (>991px)
@@ -307,39 +339,57 @@ function sectionFacilities() {
     tabs.forEach((tab) => {
       const tabData = tab.dataset.tab;
 
+      /* ===== Hover desktop =====
+         - Hover chỉ đổi ảnh/tooltips.
+         - KHÔNG bật 360 trên hover (360 chỉ bật trên click).
+      */
       tab.addEventListener("mouseenter", () => {
         tabs.forEach((t) => t.classList.remove("active"));
         tab.classList.add("active");
 
-        // Toggle images
-        images.forEach((img) => {
-          img.classList.toggle("active", img.dataset.tab === tabData);
-        });
+        // Khi hover: luôn ẩn tất cả item-360 (wrapper-360 phải d-none)
+        items360.forEach((item) => item.classList.add("d-none"));
+        // Hiện blocks ảnh
+        imageBlocks.forEach((block) => block.classList.remove("d-none"));
 
-        // Tooltip-area control
-        if (tooltipAreas.length) {
-          if (tabData === "all") {
-            // Show everything
-            tooltipAreas.forEach((t) => t.classList.remove("hide"));
-          } else {
-            tooltipAreas.forEach((t) => {
-              t.classList.toggle("hide", t.dataset.tab !== tabData);
-            });
-          }
+        // Toggle images theo tab
+        images.forEach((img) =>
+          img.classList.toggle("active", img.dataset.tab === tabData)
+        );
+
+        // Tooltip-area
+        if (tabData === "all") {
+          tooltipAreas.forEach((t) => t.classList.remove("hide"));
+        } else {
+          tooltipAreas.forEach((t) =>
+            t.classList.toggle("hide", t.dataset.tab !== tabData)
+          );
         }
 
-        // Hide main tooltips container khi không phải all
+        // Main tooltip
         if (tooltips) {
-          if (tabData !== "all") tooltips.classList.add("hide");
-          else tooltips.classList.remove("hide");
+          tabData !== "all"
+            ? tooltips.classList.add("hide")
+            : tooltips.classList.remove("hide");
+        }
+      });
+
+      /* ===== CLICK desktop =====
+         - Click mới bật 360 nếu có.
+      */
+      tab.addEventListener("click", () => {
+        const have360 = show360(tabData);
+
+        if (!have360) {
+          // Không có 360 → restore ảnh + ẩn tất cả 360
+          items360.forEach((item) => item.classList.add("d-none"));
+          imageBlocks.forEach((block) => block.classList.remove("d-none"));
         }
       });
     });
 
-    // Reset khi rời khỏi tabs
-    tabsWrapper.addEventListener("mouseleave", () => {
-      showDefault();
-    });
+    // Nếu muốn reset khi rời khu vực tabs, enable line dưới
+    // tabsWrapper.addEventListener("mouseleave", showDefault);
   }
 
   /* ===========================
@@ -349,30 +399,33 @@ function sectionFacilities() {
     const dropdownItems = $(".facilities-tabs.mobile .dropdown-custom-item");
 
     dropdownItems.on("click", function () {
-      let thisData = $(this).find("span").data("tab");
+      const tabData = $(this).find("span").data("tab");
 
-      if (thisData === "all") {
-        images.forEach((img) => {
-          img.classList.toggle("active", img.dataset.tab === "all");
-        });
+      const have360 = show360(tabData);
+      if (have360) return; // nếu có 360 thì dừng (360 đã hiển thị)
 
+      // No 360 → show images (ẩn wrapper-360)
+      items360.forEach((item) => item.classList.add("d-none"));
+      imageBlocks.forEach((b) => b.classList.remove("d-none"));
+
+      // ALL tab
+      if (tabData === "all") {
+        images.forEach((img) =>
+          img.classList.toggle("active", img.dataset.tab === "all")
+        );
         if (tooltips) tooltips.classList.remove("hide");
-
-        // Show all tooltip-areas
         tooltipAreas.forEach((t) => t.classList.remove("hide"));
-
         return;
       }
 
-      // Toggle images
-      images.forEach((img) => {
-        img.classList.toggle("active", img.dataset.tab === thisData);
-      });
+      // Show correct image for selected tab
+      images.forEach((img) =>
+        img.classList.toggle("active", img.dataset.tab === tabData)
+      );
 
-      // Tooltip-area control
-      tooltipAreas.forEach((t) => {
-        t.classList.toggle("hide", t.dataset.tab !== thisData);
-      });
+      tooltipAreas.forEach((t) =>
+        t.classList.toggle("hide", t.dataset.tab !== tabData)
+      );
 
       if (tooltips) tooltips.classList.add("hide");
     });
@@ -424,21 +477,47 @@ function customDropdown() {
       item.addEventListener("click", function (e) {
         e.stopPropagation();
 
-        // Store current values from the button
+        // Kiểm tra dropdown này có nằm trong .section-model không
+        const isInSectionModel = dropdown.closest(".section-model") !== null;
+
+        // Lấy text trong item click
+        const clickedText =
+          item.querySelector("span")?.textContent.trim() || "";
+
+        // Lấy data-tab (hoặc data khác)
+        const clickedDataTab = item.dataset.tab || "";
+
+        // ===============================
+        // CASE 1: dropdown thuộc .section-model
+        // => CHỈ đổi TEXT + DATA, KHÔNG đổi HTML
+        // ===============================
+        if (isInSectionModel) {
+          const spanEl = valueSelect.querySelector("span");
+          if (spanEl) spanEl.textContent = clickedText;
+
+          if (clickedDataTab) valueSelect.dataset.tab = clickedDataTab;
+
+          closeAllDropdowns();
+          return; // IMPORTANT: không chạy xuống logic HTML swap
+        }
+
+        // ===============================
+        // CASE 2: dropdown bình thường (giữ logic cũ)
+        // ===============================
         const currentImgEl = valueSelect.querySelector("img");
         const currentImg = currentImgEl ? currentImgEl.src : "";
-        const currentText = valueSelect.querySelector("span").textContent;
+        const currentText =
+          valueSelect.querySelector("span")?.textContent.trim() || "";
         const currentHtml = valueSelect.innerHTML;
 
-        // Store clicked item values
         const clickedHtml = item.innerHTML;
 
-        // Update the button with clicked item values
+        // Gán html clicked lên button
         valueSelect.innerHTML = clickedHtml;
 
-        const isSelectTime = currentText.trim() === "Time";
+        const isSelectTime = currentText === "Time";
 
-        // Update the clicked item with the previous button values
+        // Swap html ngược lại cho item
         if (!isSelectTime) {
           if (currentImg) {
             item.innerHTML = `<img src="${currentImg}" alt="" /><span>${currentText}</span>`;
@@ -476,21 +555,24 @@ function customDropdown() {
 function sectionModel() {
   if ($(".section-model").length < 1) return;
 
-  document.querySelectorAll(".dropdown-custom-item").forEach((item) => {
-    item.addEventListener("click", function () {
-      const span = this.querySelector("span");
-      if (!span) return;
+  $(".dropdown-custom-item").on("click", function () {
+    // lấy span bên trong
+    const span = $(this).find("span");
+    if (!span.length) return;
 
-      const tabId = span.dataset.tab;
-      const trigger = document.querySelector(`[data-bs-target="#${tabId}"]`);
+    const tabId = span.data("tab");
+    // console.log(tabId);
 
-      if (trigger) {
-        const tab = new bootstrap.Tab(trigger);
-        tab.show();
-      }
-    });
+    const trigger = $(`[data-bs-target="#${tabId}"]`);
+
+    if (trigger.length) {
+      const tab = new bootstrap.Tab(trigger[0]);
+      tab.show();
+    }
   });
 }
+
+document.addEventListener("DOMContentLoaded", sectionModel);
 
 const init = () => {
   gsap.registerPlugin(ScrollTrigger);
@@ -502,7 +584,7 @@ const init = () => {
   sectionFacilities();
   updateImageWidth();
   customDropdown();
-  sectionModel();
+  // sectionModel();
 };
 preloadImages("img").then(() => {
   // Once images are preloaded, remove the 'loading' indicator/class from the body

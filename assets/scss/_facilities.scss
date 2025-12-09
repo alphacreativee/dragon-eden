@@ -53,6 +53,10 @@
       transition: all 0.4s ease;
       text-transform: uppercase;
 
+      display: flex;
+      align-items: center;
+      justify-content: center;
+
       @media (max-width: 991px) {
         min-width: max-content;
       }
@@ -95,6 +99,20 @@
       overflow-y: hidden;
       overflow-x: scroll;
     }
+
+    .item-360 {
+      width: 100%;
+      height: calc(100dvh - 69px);
+      overflow: hidden;
+    }
+
+    // .wrapper-360 {
+    //   height: calc(100dvh - 69px);
+    //   width: auto;
+    //   min-width: 100%;
+    //   overflow: hidden;
+    //   position: relative;
+    // }
 
     .image {
       height: calc(100dvh - 69px);
