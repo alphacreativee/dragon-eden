@@ -283,34 +283,27 @@ function sectionFacilities() {
   const tooltips = section.querySelector(".tooltips");
   const tooltipAreas = section.querySelectorAll(".tooltip-area");
 
-  /* ===========================
-      FUNCTION: SHOW DEFAULT
-  ============================ */
+  /* DEFAULT */
   function showDefault() {
     tabs.forEach((t) => t.classList.remove("active"));
+
     const defaultTab = section.querySelector('.tab-item[data-tab="all"]');
     if (defaultTab) defaultTab.classList.add("active");
 
-    // show image all
-    images.forEach((img) => {
-      img.classList.toggle("active", img.dataset.tab === "all");
-    });
+    images.forEach((img) =>
+      img.classList.toggle("active", img.dataset.tab === "all")
+    );
 
-    // show tooltip
-    if (tooltips) tooltips.classList.remove("hide");
-    tooltipAreas.forEach((t) => t.classList.remove("hide"));
-
-    // hide all 360 (wrapper-360)
     items360.forEach((item) => item.classList.add("d-none"));
-    // show image block
     imageBlocks.forEach((block) => block.classList.remove("d-none"));
+
+    tooltipAreas.forEach((t) => t.classList.remove("hide"));
+    if (tooltips) tooltips.classList.remove("hide");
   }
 
   showDefault();
 
-  /* ===========================
-      FUNCTION: SHOW 360 (CLICK)
-  ============================ */
+  /* SHOW 360 */
   function show360(tabData) {
     const item360 = section.querySelector(
       `.facilities-wrapper .item-360[data-tab="${tabData}"]`
@@ -318,117 +311,119 @@ function sectionFacilities() {
 
     if (!item360) return false;
 
-    // hide all 360 then show the correct one
-    items360.forEach((el) => el.classList.add("d-none"));
+    items360.forEach((i) => i.classList.add("d-none"));
     item360.classList.remove("d-none");
 
-    // hide all image blocks
-    imageBlocks.forEach((block) => block.classList.add("d-none"));
+    imageBlocks.forEach((b) => b.classList.add("d-none"));
 
-    // hide tooltip and tooltip-areas
-    if (tooltips) tooltips.classList.add("hide");
     tooltipAreas.forEach((t) => t.classList.add("hide"));
+    if (tooltips) tooltips.classList.add("hide");
 
     return true;
   }
 
   /* ===========================
-          DESKTOP (>991px)
+        DESKTOP: CLICK
   ============================ */
   if (window.innerWidth > 991) {
     tabs.forEach((tab) => {
-      const tabData = tab.dataset.tab;
+      tab.addEventListener("click", () => {
+        const tabData = tab.dataset.tab;
 
-      /* ===== Hover desktop =====
-         - Hover chỉ đổi ảnh/tooltips.
-         - KHÔNG bật 360 trên hover (360 chỉ bật trên click).
-      */
-      tab.addEventListener("mouseenter", () => {
         tabs.forEach((t) => t.classList.remove("active"));
         tab.classList.add("active");
 
-        // Khi hover: luôn ẩn tất cả item-360 (wrapper-360 phải d-none)
-        items360.forEach((item) => item.classList.add("d-none"));
-        // Hiện blocks ảnh
-        imageBlocks.forEach((block) => block.classList.remove("d-none"));
+        const have360 = show360(tabData);
+        if (have360) return;
 
-        // Toggle images theo tab
+        // Không có 360 → show hình ảnh
+        items360.forEach((i) => i.classList.add("d-none"));
+        imageBlocks.forEach((b) => b.classList.remove("d-none"));
+
+        if (tabData === "all") {
+          images.forEach((img) =>
+            img.classList.toggle("active", img.dataset.tab === "all")
+          );
+          tooltipAreas.forEach((t) => t.classList.remove("hide"));
+          if (tooltips) tooltips.classList.remove("hide");
+          return;
+        }
+
+        // Tab khác ALL
         images.forEach((img) =>
           img.classList.toggle("active", img.dataset.tab === tabData)
         );
 
-        // Tooltip-area
-        if (tabData === "all") {
-          tooltipAreas.forEach((t) => t.classList.remove("hide"));
-        } else {
-          tooltipAreas.forEach((t) =>
-            t.classList.toggle("hide", t.dataset.tab !== tabData)
-          );
-        }
+        tooltipAreas.forEach((t) =>
+          t.classList.toggle("hide", t.dataset.tab !== tabData)
+        );
 
-        // Main tooltip
-        if (tooltips) {
-          tabData !== "all"
-            ? tooltips.classList.add("hide")
-            : tooltips.classList.remove("hide");
-        }
-      });
-
-      /* ===== CLICK desktop =====
-         - Click mới bật 360 nếu có.
-      */
-      tab.addEventListener("click", () => {
-        const have360 = show360(tabData);
-
-        if (!have360) {
-          // Không có 360 → restore ảnh + ẩn tất cả 360
-          items360.forEach((item) => item.classList.add("d-none"));
-          imageBlocks.forEach((block) => block.classList.remove("d-none"));
-        }
+        if (tooltips) tooltips.classList.add("hide");
       });
     });
-
-    // Nếu muốn reset khi rời khu vực tabs, enable line dưới
-    // tabsWrapper.addEventListener("mouseleave", showDefault);
   }
 
   /* ===========================
-          MOBILE (<992px)
+        MOBILE: CLICK DROPDOWN
   ============================ */
   if (window.innerWidth < 992) {
-    const dropdownItems = $(".facilities-tabs.mobile .dropdown-custom-item");
-
-    dropdownItems.on("click", function () {
-      const tabData = $(this).find("span").data("tab");
-
-      const have360 = show360(tabData);
-      if (have360) return; // nếu có 360 thì dừng (360 đã hiển thị)
-
-      // No 360 → show images (ẩn wrapper-360)
-      items360.forEach((item) => item.classList.add("d-none"));
-      imageBlocks.forEach((b) => b.classList.remove("d-none"));
-
-      // ALL tab
-      if (tabData === "all") {
-        images.forEach((img) =>
-          img.classList.toggle("active", img.dataset.tab === "all")
-        );
-        if (tooltips) tooltips.classList.remove("hide");
-        tooltipAreas.forEach((t) => t.classList.remove("hide"));
-        return;
-      }
-
-      // Show correct image for selected tab
-      images.forEach((img) =>
-        img.classList.toggle("active", img.dataset.tab === tabData)
+    const mobileTabsWrap = section.querySelector(".facilities-tabs.mobile");
+    if (mobileTabsWrap) {
+      const dropdownItems = mobileTabsWrap.querySelectorAll(
+        ".dropdown-custom-item"
       );
+      const dropdownToggleLabel = mobileTabsWrap.querySelector(
+        ".dropdown-custom-text"
+      ); // nếu bạn có phần hiển thị label
 
-      tooltipAreas.forEach((t) =>
-        t.classList.toggle("hide", t.dataset.tab !== tabData)
-      );
+      dropdownItems.forEach((item) => {
+        // lắng nghe click trên toàn item (bao gồm span)
+        item.addEventListener("click", function (e) {
+          // tìm element chứa data-tab (ưu tiên span[data-tab], fallback data-tab trên item)
+          const span = this.querySelector("span[data-tab]");
+          const tabData = span ? span.dataset.tab : this.dataset.tab;
+          if (!tabData) return;
 
-      if (tooltips) tooltips.classList.add("hide");
-    });
+          // bật active cho dropdown item đã chọn, tắt các item khác
+          dropdownItems.forEach((it) => it.classList.remove("active"));
+          this.classList.add("active");
+
+          // cập nhật label trên dropdown (nếu có)
+          if (dropdownToggleLabel) {
+            const labelText = span
+              ? span.textContent.trim()
+              : this.textContent.trim();
+            dropdownToggleLabel.textContent = labelText;
+          }
+
+          // xử lý 360 / ảnh giống desktop
+          const have360 = show360(tabData);
+          if (have360) return; // nếu có 360 thì dừng
+
+          // không có 360 -> show ảnh + tooltip
+          items360.forEach((i) => i.classList.add("d-none"));
+          imageBlocks.forEach((b) => b.classList.remove("d-none"));
+
+          if (tabData === "all") {
+            images.forEach((img) =>
+              img.classList.toggle("active", img.dataset.tab === "all")
+            );
+            tooltipAreas.forEach((t) => t.classList.remove("hide"));
+            if (tooltips) tooltips.classList.remove("hide");
+            return;
+          }
+
+          // tab cụ thể
+          images.forEach((img) =>
+            img.classList.toggle("active", img.dataset.tab === tabData)
+          );
+          tooltipAreas.forEach((t) =>
+            t.classList.toggle("hide", t.dataset.tab !== tabData)
+          );
+          if (tooltips) tooltips.classList.add("hide");
+        });
+      });
+    }
   }
 }
 
