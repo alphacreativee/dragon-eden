@@ -290,6 +290,11 @@ function sectionFacilities() {
     const defaultTab = section.querySelector('.tab-item[data-tab="all"]');
     if (defaultTab) defaultTab.classList.add("active");
 
+    // Nếu tab ALL có 360 → ưu tiên hiện 360
+    const have360 = show360("all");
+    if (have360) return;
+
+    // Không có 360 → fallback về hình
     images.forEach((img) =>
       img.classList.toggle("active", img.dataset.tab === "all")
     );
@@ -333,14 +338,19 @@ function sectionFacilities() {
         tabs.forEach((t) => t.classList.remove("active"));
         tab.classList.add("active");
 
+        // Ưu tiên 360 trước
         const have360 = show360(tabData);
         if (have360) return;
 
-        // Không có 360 → show hình ảnh
+        // Không có 360 → show hình
         items360.forEach((i) => i.classList.add("d-none"));
         imageBlocks.forEach((b) => b.classList.remove("d-none"));
 
         if (tabData === "all") {
+          // ALL có 360?
+          const have360All = show360("all");
+          if (have360All) return;
+
           images.forEach((img) =>
             img.classList.toggle("active", img.dataset.tab === "all")
           );
@@ -349,7 +359,7 @@ function sectionFacilities() {
           return;
         }
 
-        // Tab khác ALL
+        // Tab cụ thể
         images.forEach((img) =>
           img.classList.toggle("active", img.dataset.tab === tabData)
         );
@@ -374,21 +384,17 @@ function sectionFacilities() {
       );
       const dropdownToggleLabel = mobileTabsWrap.querySelector(
         ".dropdown-custom-text"
-      ); // nếu bạn có phần hiển thị label
+      );
 
       dropdownItems.forEach((item) => {
-        // lắng nghe click trên toàn item (bao gồm span)
-        item.addEventListener("click", function (e) {
-          // tìm element chứa data-tab (ưu tiên span[data-tab], fallback data-tab trên item)
+        item.addEventListener("click", function () {
           const span = this.querySelector("span[data-tab]");
           const tabData = span ? span.dataset.tab : this.dataset.tab;
           if (!tabData) return;
 
-          // bật active cho dropdown item đã chọn, tắt các item khác
           dropdownItems.forEach((it) => it.classList.remove("active"));
           this.classList.add("active");
 
-          // cập nhật label trên dropdown (nếu có)
           if (dropdownToggleLabel) {
             const labelText = span
               ? span.textContent.trim()
@@ -396,15 +402,18 @@ function sectionFacilities() {
             dropdownToggleLabel.textContent = labelText;
           }
 
-          // xử lý 360 / ảnh giống desktop
+          // Ưu tiên 360
           const have360 = show360(tabData);
-          if (have360) return; // nếu có 360 thì dừng
+          if (have360) return;
 
-          // không có 360 -> show ảnh + tooltip
+          // fallback → show hình
           items360.forEach((i) => i.classList.add("d-none"));
           imageBlocks.forEach((b) => b.classList.remove("d-none"));
 
           if (tabData === "all") {
+            const have360All = show360("all");
+            if (have360All) return;
+
             images.forEach((img) =>
               img.classList.toggle("active", img.dataset.tab === "all")
             );
@@ -413,13 +422,14 @@ function sectionFacilities() {
             return;
           }
 
-          // tab cụ thể
           images.forEach((img) =>
             img.classList.toggle("active", img.dataset.tab === tabData)
           );
+
           tooltipAreas.forEach((t) =>
             t.classList.toggle("hide", t.dataset.tab !== tabData)
           );
+
           if (tooltips) tooltips.classList.add("hide");
         });
       });
